@@ -1,9 +1,8 @@
-package com.chocoretostonus.okaimono
+package com.chocoretostonus.okaimono.dbjson
 import com.google.gson.Gson
 import java.io.FileReader
 import java.io.FileWriter
 import java.util.Date
-import android.content.Context
 
 //main class
 var DB = DataBase()

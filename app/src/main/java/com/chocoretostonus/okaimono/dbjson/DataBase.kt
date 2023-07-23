@@ -1,6 +1,7 @@
-package com.chocoretostonus.okaimono
+package com.chocoretostonus.okaimono.dbjson
 
 import java.util.Date
+
 
 class DataBase{
     var Anime:ArrayList<Anime> = arrayListOf(Anime()) as ArrayList<Anime>
@@ -33,3 +34,4 @@ class Manga {
     var Sequels: ArrayList<String> = arrayListOf("None")
     var SpinOffs: ArrayList<String> = arrayListOf("None")
 }
+
