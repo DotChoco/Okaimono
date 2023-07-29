@@ -12,14 +12,14 @@ public class Anime
 {
     public string? Name = "Unknown";
     public List<string>? Tags = new(){ "None" };
-    public bool? InLive = false;
+    public string? InLive = "No";
     public string? NextNewCap = "Never";
     public int? MaxCaps = 0;
     public int? LastViewCap = 0;
-    public List<string>? Prequels = new(){"0"};
-    public List<string>? Sequels = new(){"0"};
-    public List<string>? Movies  = new(){"0"};
-    public List<string>? SpinOffs = new(){"0"};
+    public List<string>? Prequels = new(){"None"};
+    public List<string>? Sequels = new(){"None"};
+    public List<string>? Movies  = new(){"None"};
+    public List<string>? SpinOffs = new(){"None"};
     public int? Ovas = 0;
 }
 
@@ -31,7 +31,7 @@ public class Manga
     public bool? OnGoing = false;
     public int? MaxCaps = 0;
     public int? LastViewCap = 0;
-    public List<string>? Prequels = new(){"0"};
-    public List<string>? Sequels = new(){"0"};
-    public List<string>? SpinOffs = new(){"0"};
+    public List<string>? Prequels = new(){"None"};
+    public List<string>? Sequels = new(){"None"};
+    public List<string>? SpinOffs = new(){"None"};
 }

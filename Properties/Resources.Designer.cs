@@ -97,6 +97,24 @@ namespace Okaimono_CMD_Version.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to NAME
+        ///    Get-ChildItem
+        ///
+        ///SYNTAX
+        ///    Get-ChildItem [[-Path] &lt;string[]&gt;] [[-Filter] &lt;string&gt;] [-Include &lt;string[]&gt;] [-Exclude &lt;string[]&gt;] [-Recurse] [-Depth &lt;uint&gt;] [-Force] [-Name]
+        ///    [-Attributes {ReadOnly | Hidden | System | Directory | Archive | Device | Normal | Temporary | SparseFile | ReparsePoint | Compressed | Offline |
+        ///    NotContentIndexed | Encrypted | IntegrityStream | NoScrubData}] [-FollowSymlink] [-Directory] [-File] [-Hidden] [-ReadOnly] [-System]
+        ///    [&lt;CommonParameters&gt;]
+        ///
+        ///    Get-Ch [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string Doc {
+            get {
+                return ResourceManager.GetString("Doc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
         internal static System.IO.UnmanagedMemoryStream error {

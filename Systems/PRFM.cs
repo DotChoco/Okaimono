@@ -1,7 +1,7 @@
 ﻿using NAudio.Wave;
 using Okaimono_CMD_Version.Properties;
 using System.Media;
-
+using Windows.Devices.PointOfService;
 
 namespace Okaimono_CMD_Version
 {
@@ -12,11 +12,12 @@ namespace Okaimono_CMD_Version
 
         private string User = "Tenkosei";
         private string DefaultPath = @"C:/Okaimono/";
+        private bool PDOC = false;
         private string DOKDB = @"C:/Okaimono/";
         private string DOKSF = @"C:/Okaimono/DOKSF";
         private string DBGS = "Default";
         SoundPlayer soundPlayer = new();
-        private double TimeOut = default;
+        private int TimeOut = default;
 
         #endregion
 
@@ -25,7 +26,7 @@ namespace Okaimono_CMD_Version
         #region Methods
 
 
-        public double GetTimeOut
+        public int GetTimeOut
         {
             get { return TimeOut; }
         }
@@ -36,25 +37,31 @@ namespace Okaimono_CMD_Version
             get { return DOKDB; }
         }
 
+        public bool GetPDOC
+        {
+            get { return PDOC; }
+        }
+
 
 
         public void Main()
         {
-            PlaySound("open");
             ReadSettings();
             if (!Directory.Exists(DefaultPath) || !File.Exists(DOKSF))
             {
+                PDOC = true;
                 if (!Directory.Exists(DefaultPath))
                     Directory.CreateDirectory(DefaultPath);
                 Console.Clear();
                 Console.WriteLine("\nDirectorio y Base de datos Creados");
                 Console.WriteLine("Presiona una tecla para continuar....");
-                Console.ReadKey();
+                Task.Delay(1000).Wait();
                 ResetSettigs();
                 NewUser(true);
             }
             else
             {
+                PDOC = false;
                 if (!Directory.Exists(DOKDB))
                     COUPBD();
                 //else
@@ -65,6 +72,9 @@ namespace Okaimono_CMD_Version
                 //}
                 NewUser(false);
             }
+            PlaySound("open");
+            Task.Delay(TimeOut).Wait();
+
         }
 
 
@@ -75,16 +85,15 @@ namespace Okaimono_CMD_Version
         /// <param name="NewUser">If the user is new or not</param>
         void NewUser(bool NewUser)
 		{
-			Console.Clear();
-			if(!NewUser)
+            Console.Clear();
+            if (!NewUser)
 			{
 				Console.Write("\nBienvenido ");
 				Console.ForegroundColor = ConsoleColor.Green;
 				Console.Write(User);
 				Console.ForegroundColor = ConsoleColor.White;
 				Console.Write("!!!");
-				Console.WriteLine("\nPresiona una tecla para continuar....");
-				Console.ReadKey();
+				//Console.WriteLine("\nPresiona una tecla para continuar....");
 			}
 			else
 			{
@@ -145,33 +154,39 @@ namespace Okaimono_CMD_Version
         ///Allow the User change the current path of the DataBase
         ///by the default path or a new one
         /// </summary>
-		public void MoveDefaultPath()
+		public void MoveDefaultPath(bool DBError = false)
         {
-            Console.Clear();
             char Answer = default;
-			string OldDefaultPath = DefaultPath;
-			string NewDefaultPath = DefaultPath;
-			string OldDOKDBPath = DefaultPath + "DOKDB";
-			string NewDOKDBPath = DefaultPath;
-			Console.WriteLine("\nLa ruta de la base de datos actual es" +
-				"\n " + DOKDB);
-			Console.WriteLine("\nDeseas cambiarla? Y/N");
+            string OldDefaultPath = DefaultPath;
+            string NewDefaultPath = DefaultPath;
+            string OldDOKDBPath = DefaultPath + "DOKDB";
+            string NewDOKDBPath = DefaultPath;
+            string CharId = default;
 
-			string CharId = Console.ReadLine();
-			if (CharId == "")
-				Answer = 'y';
-			else
-				Answer = CharId[0];
+            if (!DBError)
+            {
+                Console.Clear();
+			    Console.WriteLine("\nLa ruta de la base de datos actual es" +
+				    "\n " + DOKDB);
+			    Console.WriteLine("\nDeseas cambiarla? Y/N");
 
+                CharId =  Console.ReadLine();
 
+                if (CharId == "")
+				    Answer = 'y';
+			    else
+				    Answer = CharId[0];
+
+            }
             Console.Clear();
-			if (Answer == 'Y' || Answer == 'y')
+			if (Answer == 'Y' || Answer == 'y' || DBError)
 			{
-				Console.WriteLine("\nEscribe toda la ruta completa desde el disco" +
+                Console.WriteLine("\nEscribe toda la ruta completa desde el disco" +
 					"\nEjemplo: D:/Descargas/Backups/Okaimono/\n");
                 NewDefaultPath = Console.ReadLine();
                 while (!Directory.Exists(NewDefaultPath))
                 {
+                    PlaySound("error");
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Clear();
                     Console.WriteLine("\nERROR: La ruta porporcionada no existente");
@@ -216,10 +231,10 @@ namespace Okaimono_CMD_Version
             DataReader = new StreamReader(DOKSF);
 			string CharList = default;
 			List<string> Settings = new List<string>();
-            Settings.ForEach(delegate (string Line)
-            {
-                Line = default;
-            });
+            //Settings.ForEach(delegate (string Line)
+            //{
+            //    Line = default;
+            //});
             foreach (var Line in DataReader.ReadToEnd())
             {
 				if(Line.ToString() != "\n")
@@ -268,7 +283,8 @@ namespace Okaimono_CMD_Version
 			DOKDB = Settings[1];
             DBGS = Settings[2];
 			DataReader.Close();
-
+            if (!File.Exists(DOKDB + "DOKDB"))
+                COUPBD();
             //Console.WriteLine(User);
             //Console.WriteLine(DOKDB);
             //Console.WriteLine(DBGS);
@@ -312,6 +328,7 @@ namespace Okaimono_CMD_Version
         /// </summary>
 		void COUPBD()
 		{
+            PlaySound("error");
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\nNo se ha podido encontrar la ruta de la base de datos");
             Console.ForegroundColor = ConsoleColor.White;
@@ -450,6 +467,7 @@ namespace Okaimono_CMD_Version
         /// <param name="Sound">Name of the sound</param>
         public void PlaySound(string Sound)
         {
+            double DelayTime = default;
             WaveFileReader wf = new(Resources.delete); 
             string[] SoundsList = {"create","delete","update","error","find","link","open","close"};
             string SoundCheck = default;
@@ -518,8 +536,8 @@ namespace Okaimono_CMD_Version
                         break;
                 }
             }
-            TimeOut = wf.TotalTime.TotalMilliseconds;
-            
+            DelayTime = wf.TotalTime.TotalMilliseconds;
+            TimeOut = (int)DelayTime;
             soundPlayer.Play();
         }
 
