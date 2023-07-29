@@ -9,6 +9,7 @@ namespace Okaimono_CMD_Version
 {
     public class DCFF
     {
+
         #region Variables
 
         PRFM PRFM = new();
@@ -17,6 +18,8 @@ namespace Okaimono_CMD_Version
         private string DOKDBPath = default;
         private bool PDOC = false;
         #endregion
+
+
 
         #region Encapsulation
 
@@ -831,6 +834,7 @@ namespace Okaimono_CMD_Version
 
 
         #endregion
+
 
     }
 

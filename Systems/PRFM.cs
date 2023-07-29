@@ -23,7 +23,7 @@ namespace Okaimono_CMD_Version
 
 
 
-        #region Methods
+        #region Encapsulation
 
 
         public int GetTimeOut
@@ -41,6 +41,13 @@ namespace Okaimono_CMD_Version
         {
             get { return PDOC; }
         }
+
+
+        #endregion
+
+
+
+        #region Methods
 
 
 
@@ -435,32 +442,6 @@ namespace Okaimono_CMD_Version
 
 
 
-        bool DBGS_Is_Wav(string Path)
-        {
-            bool IsWav = false;
-            for (int i = Path.Length-1; i >= 0; i--)
-            {
-                if (Path[i] == '.')
-                {
-                    if (Path[i + 1] == 'w' && Path[i + 2] == 'a' && Path[i + 3] == 'v')
-                    {
-                        IsWav = true;
-                        break;
-                    }
-                    else
-                    {
-                        IsWav = false;
-                        break;
-                    }
-                }
-
-            }   
-
-            return IsWav;
-        }
-
-
-
         /// <summary>
         /// Play a sound from the DBGS
         /// </summary>
@@ -539,16 +520,6 @@ namespace Okaimono_CMD_Version
             DelayTime = wf.TotalTime.TotalMilliseconds;
             TimeOut = (int)DelayTime;
             soundPlayer.Play();
-        }
-
-
-
-        /// <summary>
-        /// Stops the sound
-        /// </summary>
-        bool StopSound(SoundPlayer soundPlayer)
-        {
-            return soundPlayer.IsLoadCompleted;
         }
 
 
