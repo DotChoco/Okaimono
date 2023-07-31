@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using Okaimono_Desktop.Properties;
 
@@ -39,7 +40,7 @@ namespace Okaimono_Desktop
             List<string> Lines = default;
             string Line = default;
             PRFM.Main();
-            PDOC = PRFM.GetPDOC;
+            PDOC = PRFM.PDOC;
             DOKDBPath = PRFM.GetDOKDB + "DOKDB";
             if (File.Exists(DOKDBPath))
             {
@@ -387,9 +388,9 @@ namespace Okaimono_Desktop
         {
             string ItemType= default;
             Console.Clear();
-            Console.WriteLine("\nEscribe el nombre del Anime\n \nSi deseas salir escribe [E/e]:\n\n");
-            string Name = Console.ReadLine();
-            if (Name == "e" || Name.ToLower() == "exit")
+            Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
+            string Name = Console.ReadLine().ToLower();
+            if (Name == "e" || Name == "exit")
             {
                 ItemType = "e";
                 goto exit;
@@ -411,12 +412,12 @@ namespace Okaimono_Desktop
                 Task.Delay(1000).Wait();
 
                 Console.Clear();
-                Console.WriteLine("\nEscribe el nombre del Anime o Manga:\n");
-                Name = Console.ReadLine();
+                Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
+                Name = Console.ReadLine().ToLower();
 
                 Console.Clear();
-                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
-                ItemType = Console.ReadLine();
+                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m])\n \nSi deseas salir escribe [E/e]:\n\n");
+                ItemType = Console.ReadLine().ToLower();
             }
 
 
@@ -463,10 +464,9 @@ namespace Okaimono_Desktop
             Console.WriteLine("\nQue tipo de elemento quieres crear? Anime[A/a], Manga[M/m]\n");
             Console.WriteLine("\nSi deseas salir Escribe [E/e]:\n\n");
             string? Answer = default;
-            Answer = Console.ReadLine();
+            Answer = Console.ReadLine().ToLower();
 
             Console.Clear();
-            Answer = Answer.ToLower();
             while (Answer != "a" && Answer != "m" && Answer != "e")
             {
                 PRFM.PlaySound("error");
@@ -479,7 +479,7 @@ namespace Okaimono_Desktop
                 Console.Clear();
                 Console.WriteLine("\nQue tipo de elemento quieres crear???\n");
                 Console.WriteLine("\nAnime(A/a), Manga(M/m), Salir(E/e)");
-                Answer = Console.ReadLine();
+                Answer = Console.ReadLine().ToLower();
             }
             if (Answer == "a")
             {
@@ -779,8 +779,7 @@ namespace Okaimono_Desktop
             }
             Console.Clear();
             Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m])\n \nSi deseas salir escribe [E/e]:\n\n");
-            ItemType = Console.ReadLine();
-            ItemType = ItemType.ToLower();
+            ItemType = Console.ReadLine().ToLower();
             while (Name == "" || ItemType == "")
             {
                 PRFM.PlaySound("error");
@@ -794,12 +793,12 @@ namespace Okaimono_Desktop
                 Task.Delay(1000).Wait();
 
                 Console.Clear();
-                Console.WriteLine("\nEscribe el nombre del Anime o Manga:\n");
-                Name = Console.ReadLine();
+                Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
+                Name = Console.ReadLine().ToLower();
 
                 Console.Clear();
-                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
-                ItemType = Console.ReadLine();
+                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m])\n \nSi deseas salir escribe [E/e]:\n\n");
+                ItemType = Console.ReadLine().ToLower();
             }
             exit:
             if (ItemType == "a" || ItemType.ToLower() == "anime")
@@ -892,11 +891,11 @@ namespace Okaimono_Desktop
                 Task.Delay(1000).Wait();
 
                 Console.Clear();
-                Console.WriteLine("\nEscribe el nombre del Anime o Manga:\n");
+                Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
                 Name = Console.ReadLine();
 
                 Console.Clear();
-                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
+                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]\n \nSi deseas salir escribe [E/e]:\n\n");
                 ItemType = Console.ReadLine();
             }
 
@@ -991,10 +990,15 @@ namespace Okaimono_Desktop
         /// <summary>
         /// 
         /// </summary>
-        public void PrintDoc()
+        public void PrintDoc(string wait = "no")
         {
-            string CharList = default;
+            string? Answer = default;
             string Doc = Resources.Doc;
+            string CharList = default;
+
+            PrintDoc:
+            CharList = default;
+            Console.Clear();
             foreach (var Line in Doc)
             {
                 if (Line.ToString() != "\n")
@@ -1007,7 +1011,15 @@ namespace Okaimono_Desktop
                     CharList = default;
                 }
             }
-
+            Console.WriteLine("\nSi deseas salir Escribe [E/e]:\n\n");
+            Answer = Console.ReadLine().ToLower();
+            if (Answer == "e")
+            {
+                PDOC = false;
+                PRFM.PDOC = PDOC;
+                return;
+            }
+            goto PrintDoc;
 
         }
 

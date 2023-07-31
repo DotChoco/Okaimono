@@ -11,7 +11,7 @@ namespace Okaimono_Desktop
 
         private string User = "Tenkosei";
         private string DefaultPath = @"C:/Okaimono/";
-        private bool PDOC = false;
+        public bool PDOC = false;
         private string DOKDB = @"C:/Okaimono/";
         private string DOKSF = @"C:/Okaimono/DOKSF";
         private string DBGS = "Default";
@@ -36,10 +36,6 @@ namespace Okaimono_Desktop
             get { return DOKDB; }
         }
 
-        public bool GetPDOC
-        {
-            get { return PDOC; }
-        }
 
 
         #endregion
@@ -52,7 +48,6 @@ namespace Okaimono_Desktop
 
         public void Main()
         {
-            ReadSettings();
             if (!Directory.Exists(DefaultPath) || !File.Exists(DOKSF))
             {
                 PDOC = true;
@@ -60,16 +55,16 @@ namespace Okaimono_Desktop
                     Directory.CreateDirectory(DefaultPath);
                 Console.Clear();
                 Console.WriteLine("\nDirectorio y Base de datos Creados");
-                Console.WriteLine("Presiona una tecla para continuar....");
                 Task.Delay(1000).Wait();
                 ResetSettigs();
                 NewUser(true);
-                PDOC = false;
+                UpdateSettings();
             }
             else
             {
+                ReadSettings();
                 PDOC = false;
-                if (!Directory.Exists(DOKDB))
+                if (!File.Exists(DOKDB + "DOKDB"))
                     COUPBD();
                 //else
                 //{
@@ -150,9 +145,6 @@ namespace Okaimono_Desktop
             Console.Write(User);
             Console.ForegroundColor = ConsoleColor.White;
             Console.Write("!!!");
-            Console.WriteLine("\n\nPresiona una tecla para continuar....");
-            UpdateSettings();
-            Console.ReadKey();
         }
 
 
@@ -290,8 +282,6 @@ namespace Okaimono_Desktop
 			DOKDB = Settings[1];
             DBGS = Settings[2];
 			DataReader.Close();
-            if (!File.Exists(DOKDB + "DOKDB"))
-                COUPBD();
             //Console.WriteLine(User);
             //Console.WriteLine(DOKDB);
             //Console.WriteLine(DBGS);
@@ -320,11 +310,14 @@ namespace Okaimono_Desktop
         /// </summary>
 		public void ResetSettigs()
 		{
+            StreamWriter streamWriter;
             Console.Clear();
 			User = "Tenkosei";
 			DOKDB = DefaultPath;
             DBGS = "Default";
             UpdateSettings();
+            streamWriter = new StreamWriter(DOKDB + "DOKDB");
+            streamWriter.Close();
 			Console.WriteLine("Configuracion restablecia");
         }
 

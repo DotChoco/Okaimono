@@ -47,7 +47,7 @@
                 }
                 else if (Answer == "i")
                 {
-
+                    DCFF.PrintDoc("si");
                 }
 
             }
