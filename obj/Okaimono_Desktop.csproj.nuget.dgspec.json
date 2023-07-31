@@ -1,0 +1,86 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\GitHubRepos\\C#\\Okaimono_CMD_Version\\Okaimono_Desktop.csproj": {}
+  },
+  "projects": {
+    "D:\\GitHubRepos\\C#\\Okaimono_CMD_Version\\Okaimono_Desktop.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\GitHubRepos\\C#\\Okaimono_CMD_Version\\Okaimono_Desktop.csproj",
+        "projectName": "Okaimono",
+        "projectPath": "D:\\GitHubRepos\\C#\\Okaimono_CMD_Version\\Okaimono_Desktop.csproj",
+        "packagesPath": "C:\\Users\\carlo\\.nuget\\packages\\",
+        "outputPath": "D:\\GitHubRepos\\C#\\Okaimono_CMD_Version\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "D:\\VS22\\VS22_Components\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\carlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows10.0.18362.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows10.0.18362": {
+            "targetAlias": "net6.0-windows10.0.18362.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows10.0.18362": {
+          "targetAlias": "net6.0-windows10.0.18362.0",
+          "dependencies": {
+            "NAudio": {
+              "target": "Package",
+              "version": "[2.1.0, )"
+            },
+            "System.Windows.Extensions": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.Windows.SDK.NET.Ref",
+              "version": "[10.0.18362.28, 10.0.18362.28]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.Windows.SDK.NET.Ref": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files (x86)\\dotnet\\sdk\\6.0.408\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
