@@ -462,7 +462,7 @@ namespace Okaimono_Desktop
         {
             Console.Clear();
             Console.WriteLine("\nQue tipo de elemento quieres crear? Anime[A/a], Manga[M/m]\n");
-            Console.WriteLine("\nSi deseas salir Escribe [E/e]:\n\n");
+            Console.WriteLine("\nSi deseas salir escribe [E/e]:\n\n");
             string? Answer = default;
             Answer = Console.ReadLine().ToLower();
 
@@ -477,8 +477,8 @@ namespace Okaimono_Desktop
                 Console.WriteLine("Vuelve a intentarlo");
                 Console.ReadKey();
                 Console.Clear();
-                Console.WriteLine("\nQue tipo de elemento quieres crear???\n");
-                Console.WriteLine("\nAnime(A/a), Manga(M/m), Salir(E/e)");
+                Console.WriteLine("\nQue tipo de elemento quieres crear? Anime[A/a], Manga[M/m]\n");
+                Console.WriteLine("\nSi deseas salir escribe [E/e]:\n\n");
                 Answer = Console.ReadLine().ToLower();
             }
             if (Answer == "a")
@@ -664,6 +664,7 @@ namespace Okaimono_Desktop
             Console.Clear();
             Console.WriteLine("\nGracias por usar el programa");
             Console.WriteLine("Presiona cualquier tecla para salir");
+            Console.WriteLine("\n\n\n");
             PRFM.PlaySound("close");
             Task.Delay(PRFM.GetTimeOut).Wait();
         }
@@ -1011,12 +1012,15 @@ namespace Okaimono_Desktop
                     CharList = default;
                 }
             }
-            Console.WriteLine("\nSi deseas salir Escribe [E/e]:\n\n");
+
+            //Console.WriteLine("\n\n\n\n");
+            Console.WriteLine("\n\n\n\nSi deseas salir escribe [E/e]:\n\n");
             Answer = Console.ReadLine().ToLower();
             if (Answer == "e")
             {
                 PDOC = false;
                 PRFM.PDOC = PDOC;
+                Console.Clear();
                 return;
             }
             goto PrintDoc;

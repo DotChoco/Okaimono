@@ -17,8 +17,7 @@
                 Console.WriteLine("Salir [E/e]  Agregar[C/c]  Buscar[S/s]  Eliminar[D/d]  Editar[T/t]  Info[I/i]");
 
                 Console.WriteLine("\n\n");
-                Answer = Console.ReadLine();
-                Answer = Answer.ToLower();
+                Answer = Console.ReadLine().ToLower();
 
                 if (Answer == "e")
                 {
@@ -65,6 +64,7 @@
             if (DCFF.GetPDOC)
             {
                 DCFF.PrintDoc();
+                Presentation();
             }
             else
             {

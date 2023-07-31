@@ -99,6 +99,7 @@ namespace Okaimono_Desktop.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Created by: ChocoretoStonus
         ///
+        ///
         ///Este Programa tiene como objetivo el ayudar al manejo de gestion del contenido 
         ///que el usuario esta consimiendo mediante la creacion de fichas de contenido.
         ///
@@ -107,7 +108,7 @@ namespace Okaimono_Desktop.Properties {
         ///de consola que facilita el uso del programa.
         ///
         ///Para el manejo de las fichas de contenido se utilizara un archivo de texto
-        ///en el cual se guardaran las fichas la [rest of string was truncated]&quot;;.
+        ///en el cual se guardaran las fichas. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Doc {
             get {

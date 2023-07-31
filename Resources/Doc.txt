@@ -1,5 +1,6 @@
 Created by: ChocoretoStonus
 
+
 Este Programa tiene como objetivo el ayudar al manejo de gestion del contenido 
 que el usuario esta consimiendo mediante la creacion de fichas de contenido.
 
@@ -22,7 +23,6 @@ Los datos que se guardaran en las fichas a rasgos generales son los siguientes:
 - Numero de capitulos
 - Precuelas
 - Secuelas
-
 
 En ningun momento se recolectara informacion personal del usuario, ni se enviara 
 informacion a terceros. Y El programa esta lanzado bajo la licencia CC BY-SA 4.0
