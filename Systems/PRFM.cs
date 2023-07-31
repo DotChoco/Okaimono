@@ -2,7 +2,7 @@
 using Okaimono_Desktop.Properties;
 using System.Media;
 
-namespace Okaimono_CMD_Version
+namespace Okaimono_Desktop
 {
 	public class PRFM
 	{

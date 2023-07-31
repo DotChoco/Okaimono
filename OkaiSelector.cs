@@ -1,6 +1,4 @@
-﻿
-
-namespace Okaimono_CMD_Version
+﻿namespace Okaimono_Desktop
 {
     public class OkaiSelector
     {

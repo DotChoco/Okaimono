@@ -5,7 +5,7 @@
     <TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>Okaimono_CMD_Version.Program</StartupObject>
+    <StartupObject>Okaimono_Desktop.Program</StartupObject>
     <AssemblyName>Okaimono</AssemblyName>
     <BaseOutputPath>bin\</BaseOutputPath>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>

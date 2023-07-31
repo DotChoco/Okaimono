@@ -2,7 +2,7 @@
 using System.Globalization;
 using Okaimono_Desktop.Properties;
 
-namespace Okaimono_CMD_Version
+namespace Okaimono_Desktop
 {
     public class DCFF
     {

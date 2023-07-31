@@ -1,4 +1,4 @@
-﻿namespace Okaimono_CMD_Version
+﻿namespace Okaimono_Desktop
 {
     internal class Program
     {
