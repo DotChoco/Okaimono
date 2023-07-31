@@ -1,0 +1,10 @@
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono_Desktop.csproj.AssemblyReference.cache
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono_Desktop.Properties.Resources.resources
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono_Desktop.csproj.GenerateResource.cache
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono_Desktop.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono_Desktop.AssemblyInfoInputs.cache
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono_Desktop.AssemblyInfo.cs
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono_Desktop.csproj.CoreCompileInputs.cache
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono.dll
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\refint\Okaimono.dll
+D:\GitHubRepos\C#\Okaimono_CMD_Version\obj\Debug\net6.0-windows10.0.18362.0\Okaimono.pdb
