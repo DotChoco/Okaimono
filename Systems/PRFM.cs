@@ -1,7 +1,6 @@
 ﻿using NAudio.Wave;
-using Okaimono_CMD_Version.Properties;
+using Okaimono_Desktop.Properties;
 using System.Media;
-using Windows.Devices.PointOfService;
 
 namespace Okaimono_CMD_Version
 {
@@ -65,6 +64,7 @@ namespace Okaimono_CMD_Version
                 Task.Delay(1000).Wait();
                 ResetSettigs();
                 NewUser(true);
+                PDOC = false;
             }
             else
             {

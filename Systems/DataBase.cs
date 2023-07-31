@@ -28,7 +28,7 @@ public class Manga
 {
     public string? Name = "Unknown";
     public List<string>? Tags= new (){"None"};
-    public bool? OnGoing = false;
+    public string? OnGoing = "No";
     public int? MaxCaps = 0;
     public int? LastViewCap = 0;
     public List<string>? Prequels = new(){"None"};

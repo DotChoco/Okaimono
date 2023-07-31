@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Okaimono_CMD_Version.Properties {
+namespace Okaimono_Desktop.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Okaimono_CMD_Version.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Okaimono_CMD_Version.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Okaimono_Desktop.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -97,16 +97,17 @@ namespace Okaimono_CMD_Version.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to NAME
-        ///    Get-ChildItem
+        ///   Looks up a localized string similar to Created by: ChocoretoStonus
         ///
-        ///SYNTAX
-        ///    Get-ChildItem [[-Path] &lt;string[]&gt;] [[-Filter] &lt;string&gt;] [-Include &lt;string[]&gt;] [-Exclude &lt;string[]&gt;] [-Recurse] [-Depth &lt;uint&gt;] [-Force] [-Name]
-        ///    [-Attributes {ReadOnly | Hidden | System | Directory | Archive | Device | Normal | Temporary | SparseFile | ReparsePoint | Compressed | Offline |
-        ///    NotContentIndexed | Encrypted | IntegrityStream | NoScrubData}] [-FollowSymlink] [-Directory] [-File] [-Hidden] [-ReadOnly] [-System]
-        ///    [&lt;CommonParameters&gt;]
+        ///Este Programa tiene como objetivo el ayudar al manejo de gestion del contenido 
+        ///que el usuario esta consimiendo mediante la creacion de fichas de contenido.
         ///
-        ///    Get-Ch [rest of string was truncated]&quot;;.
+        ///El programa esta diseñado para que el usuario pueda crear fichas de contenido
+        ///de manera rapida y sencilla, ademas de que el programa cuenta con una interfaz
+        ///de consola que facilita el uso del programa.
+        ///
+        ///Para el manejo de las fichas de contenido se utilizara un archivo de texto
+        ///en el cual se guardaran las fichas la [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Doc {
             get {

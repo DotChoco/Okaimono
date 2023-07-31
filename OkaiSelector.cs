@@ -8,9 +8,7 @@ namespace Okaimono_CMD_Version
 
         public OkaiSelector()
         {
-
             DCFF.Main();
-
             string? Answer = default;
 
             while (Answer != "E" || Answer != "e" || Answer == null)
@@ -18,34 +16,40 @@ namespace Okaimono_CMD_Version
                 Console.Clear();
                 Presentation();
                 Console.WriteLine("\n\n\n\n");
-                Console.WriteLine("Salir [E/e]  Agregar[C/c]  Buscar[S/s]  Eliminar[D/d]  Editar[T/t]");
+                Console.WriteLine("Salir [E/e]  Agregar[C/c]  Buscar[S/s]  Eliminar[D/d]  Editar[T/t]  Info[I/i]");
 
-                Console.WriteLine("\n\n\n");
+                Console.WriteLine("\n\n");
                 Answer = Console.ReadLine();
-                if (Answer == "E" || Answer == "e")
+                Answer = Answer.ToLower();
+
+                if (Answer == "e")
                 {
                     DCFF.CloseProgram();
                     break;
                 }
-                else if (Answer == "C" || Answer == "c")
+                else if (Answer == "c")
                 {
                     DCFF.CreateNewItem();
                 }
-                else if (Answer == "S" || Answer == "s")
+                else if (Answer == "s")
                 {
                     DCFF.SearchItem();
                 }
-                else if (Answer == "D" || Answer == "d")
+                else if (Answer == "d")
                 {
                     DCFF.DeleteItem();
                 }
-                else if (Answer == "T" || Answer == "t")
+                else if (Answer == "t")
                 {
                     DCFF.TransformItem();
                 }
-                else if (Answer == "K" || Answer == "k")
+                else if (Answer == "k")
                 {
-                    DCFF.KoffiForMe();
+                    DCFF.BuyMeAKoffi();
+                }
+                else if (Answer == "i")
+                {
+
                 }
 
             }

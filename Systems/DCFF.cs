@@ -1,9 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
-using System.Reflection;
-using System.Threading;
-using Okaimono_CMD_Version.Properties;
-using Windows.Graphics.Printing3D;
+using Okaimono_Desktop.Properties;
 
 namespace Okaimono_CMD_Version
 {
@@ -256,7 +253,7 @@ namespace Okaimono_CMD_Version
 
             manga.Name = Items[0].Trim('[', ']');
             manga.Tags = ReturnListItems(Items[1]);
-            manga.OnGoing= bool.Parse(Items[2].Trim('[', ']'));
+            manga.OnGoing= Items[2].Trim('[', ']');
             manga.MaxCaps = int.Parse(Items[3].Trim('[', ']'));
             manga.LastViewCap = int.Parse(Items[4].Trim('[', ']'));
             manga.Prequels = ReturnListItems(Items[5]);
@@ -388,35 +385,45 @@ namespace Okaimono_CMD_Version
         /// <param name="ItemType">Type of the element</param>
         public void DeleteItem()
         {
+            string ItemType= default;
             Console.Clear();
-            Console.WriteLine("\nEscribe el nombre del Anime:\n");
+            Console.WriteLine("\nEscribe el nombre del Anime\n \nSi deseas salir escribe [E/e]:\n\n");
             string Name = Console.ReadLine();
-
+            if (Name == "e" || Name.ToLower() == "exit")
+            {
+                ItemType = "e";
+                goto exit;
+            }
             Console.Clear();
-            Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
-            string ItemType = Console.ReadLine();
+            Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m])\n \nSi deseas salir escribe [E/e]:\n\n");
+            ItemType = Console.ReadLine();
+            ItemType =  ItemType.ToLower();
             while (Name == "" || ItemType == "")
             {
                 PRFM.PlaySound("error");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Clear();
-                Console.WriteLine("\nERROR: Nombre de Usuario invalido");
+                Console.WriteLine("\nERROR: Nombre del Elemento invalido");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Vuelve a intentarlo");
-                Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("\nDime, Como te gustaria que te llame?");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNota: Recuerda no usar caracteres especiales como espacios");
-                Console.WriteLine("ya que no solo sera tu nombre de usuario si no que tambien " +
-                                "\nuna de las llaves para poder acceder a la base de datos\n\n");
+                Console.WriteLine("\nNota: Recuerda no escribir espacios al final del nombre");
                 Console.ForegroundColor = ConsoleColor.White;
+                Task.Delay(1000).Wait();
+
+                Console.Clear();
+                Console.WriteLine("\nEscribe el nombre del Anime o Manga:\n");
                 Name = Console.ReadLine();
+
+                Console.Clear();
+                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
                 ItemType = Console.ReadLine();
             }
 
 
-            if (ItemType == "A" || ItemType == "a")
+
+
+            exit:
+            if (ItemType == "a")
             {
                 if (database.AnimeList.Exists(x => x.Name == Name))
                     database.AnimeList.Remove(database.AnimeList.Find
@@ -427,7 +434,7 @@ namespace Okaimono_CMD_Version
                     Console.WriteLine("No existe el anime");
                 }
             }
-            else if(ItemType == "M" || ItemType == "m")
+            else if(ItemType == "m")
             {
                 if (database.MangaList.Exists(x => x.Name == Name))
                 database.MangaList.Remove(database.MangaList.Find
@@ -438,7 +445,10 @@ namespace Okaimono_CMD_Version
                     Console.WriteLine("No existe el manga");
                 }
             }
+            else if (ItemType == "e")
+                return;
 
+            UpdateDOKDB(database);
             PRFM.PlaySound("delete");
         }
 
@@ -450,15 +460,14 @@ namespace Okaimono_CMD_Version
         public void CreateNewItem()
         {
             Console.Clear();
-            Console.WriteLine("\nQue tipo de elemento quieres crear???\n");
-            Console.WriteLine("\nAnime(A/a), Manga(M/m), Salir(E/e)");
+            Console.WriteLine("\nQue tipo de elemento quieres crear? Anime[A/a], Manga[M/m]\n");
+            Console.WriteLine("\nSi deseas salir Escribe [E/e]:\n\n");
             string? Answer = default;
             Answer = Console.ReadLine();
 
             Console.Clear();
-            while (Answer != "A" && Answer != "a" &&
-                   Answer != "M" && Answer != "m" &&
-                   Answer != "E" && Answer != "e")
+            Answer = Answer.ToLower();
+            while (Answer != "a" && Answer != "m" && Answer != "e")
             {
                 PRFM.PlaySound("error");
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -472,13 +481,18 @@ namespace Okaimono_CMD_Version
                 Console.WriteLine("\nAnime(A/a), Manga(M/m), Salir(E/e)");
                 Answer = Console.ReadLine();
             }
-            if (Answer == "A" || Answer == "a")
+            if (Answer == "a")
             {
                 database.AnimeList.Add(AddNewAnime());
             }
-            else if(Answer == "M" || Answer == "m")
+            else if(Answer == "m")
             {
                 database.MangaList.Add(AddNewManga());
+            }
+            else if (Answer == "e")
+            {
+                Console.Clear();
+                return;
             }
             UpdateDOKDB(database);
 
@@ -491,72 +505,79 @@ namespace Okaimono_CMD_Version
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="anime"></param>
         /// <returns></returns>
-        Anime AddNewAnime()
+        Anime AddNewAnime(Anime anime = null)
         {
             string? Answer = default;
-            string DefaultAnswer = default;
-            Anime anime = new();
+            anime = anime ?? new();
+
 
             Console.Clear();
-            Console.WriteLine("\nEscribe el nombre del Anime:\n");
-            anime.Name = Console.ReadLine();
+            Console.WriteLine("\nEscribe el nombre del Anime\nNota: Evita colorcar espaios al final del nombre:\n");
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = anime.Name;
+            anime.Name = Answer;
 
             Console.Clear();
             Console.WriteLine("\nEscribe los generos del Anime(escribelos como en el sig. ejemplo: Romance,Escolares,Ecchi):\n");
             Console.WriteLine("En caso de que no contar con ellos solo presiona Enter\n");
             Answer = Console.ReadLine();
-            if (Answer == "")Answer = "Unknown";
+            if (Answer == "")Answer = SaveListFormater(anime.Tags,",");
             anime.Tags = ReturnListItems(Answer, ',');
 
             Console.Clear();
             Console.WriteLine("\nEscribe 'Si' o 'No' si esta en Emision:\n");
-            anime.InLive = Console.ReadLine();
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = anime.InLive;
+            anime.InLive = Answer;
 
             Console.Clear();
-            Console.WriteLine("\nEscribe el dia de la semana que se emite:\n");
-            anime.NextNewCap = Console.ReadLine();
+            Console.WriteLine("\nEscribe el dia de la semana que se emite(ejemplo: Lunes):\n");
+            Answer = Console.ReadLine();
+            if (Answer != "") anime.NextNewCap = TranslateDay(Answer);
+            //anime.NextNewCap = TranslateDay(Answer);
 
             Console.Clear();
             Console.WriteLine("\nEscribe el numero maximo de caps que tiene el Anime:\n");
-            anime.MaxCaps = int.TryParse(Console.ReadLine(), out int maxcaps) ? maxcaps : 0;
+            anime.MaxCaps = int.TryParse(Console.ReadLine(), out int maxcaps) ? maxcaps :  anime.MaxCaps;
 
 
             Console.Clear();
             Console.WriteLine("\nEscribe el numero del ultimo cap que has visto:\n");
-            anime.LastViewCap = int.TryParse(Console.ReadLine(), out int lastcap) ? lastcap : 0;
+            anime.LastViewCap = int.TryParse(Console.ReadLine(), out int lastcap) ? lastcap : anime.LastViewCap;
 
             Console.Clear();
             Console.WriteLine("\nEscribe los nombres o numero de Precuelas del Anime\n" +
                 "(solo en caso de tener escribelos como en la seccion de Generos, caso contrario solo presiona Enter\n");
             Answer = Console.ReadLine();
-            if (Answer == "") Answer = "0";
+            if (Answer == "") Answer = SaveListFormater(anime.Prequels, ",");
             anime.Prequels = ReturnListItems(Answer, ',');
 
             Console.Clear();
             Console.WriteLine("\nEscribe los nombres o numero de Secuelas del Anime\n" +
                 "(solo en caso de tener escribelos como en la seccion de Generos, caso contrario solo presiona Enter\n");
             Answer = Console.ReadLine();
-            if (Answer == "") Answer = "0";
+            if (Answer == "") Answer = SaveListFormater(anime.Sequels, ",");
             anime.Sequels = ReturnListItems(Answer, ',');
 
             Console.Clear();
             Console.WriteLine("\nEscribe los nombres o numero de Peliculas del Anime\n" +
                 "(solo en caso de tener escribelos como en la seccion de Generos, caso contrario solo presiona Enter\n");
             Answer = Console.ReadLine();
-            if (Answer == "") Answer = "0";
+            if (Answer == "") Answer = SaveListFormater(anime.Movies, ",");
             anime.Movies = ReturnListItems(Answer, ',');
 
             Console.Clear();
             Console.WriteLine("\nEscribe los nombres o numero de SpinOffs del Anime\n" +
                 "(solo en caso de tener escribelos como en la seccion de Genero, caso contrario solo presiona Enter\n");
             Answer = Console.ReadLine();
-            if (Answer == "") Answer = "0";
+            if (Answer == "") Answer = SaveListFormater(anime.SpinOffs, ",");
             anime.SpinOffs = ReturnListItems(Answer, ',');
 
             Console.Clear();
             Console.WriteLine("\nNombre o Numero de Ovas:\n");
-            anime.Ovas = int.TryParse(Console.ReadLine(), out int ovas) ? ovas : 0;
+            anime.Ovas = int.TryParse(Console.ReadLine(), out int ovas) ? ovas : anime.Ovas;
 
             Console.Clear();            
             Console.WriteLine("\nAnime Agregado Correctamente\n");
@@ -568,11 +589,67 @@ namespace Okaimono_CMD_Version
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="manga"></param>
         /// <returns></returns>
-        Manga AddNewManga()
+        Manga AddNewManga(Manga manga = null)
         {
-            Manga manga = new();
+            string? Answer = default;
+            manga = manga ?? new();
 
+            Console.Clear();
+            Console.WriteLine("\nEscribe el nombre del Manga\nNota: Evita colorcar espaios al final del nombre:\n");
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = manga.Name;
+            manga.Name = Answer;
+
+            Console.Clear();
+            Console.WriteLine("\nEscribe los generos del Manga(escribelos como en el sig. ejemplo: Romance,Escolares,Ecchi):\n");
+            Console.WriteLine("En caso de que no contar con ellos solo presiona Enter\n");
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = SaveListFormater(manga.Tags, ",");
+            manga.Tags = ReturnListItems(Answer, ',');
+
+            Console.Clear();
+            Console.WriteLine("\nEscribe 'Si' o 'No' si esta en Emision:\n");
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = manga.OnGoing;
+            manga.OnGoing = Answer;
+
+
+            Console.Clear();
+            Console.WriteLine("\nEscribe el numero maximo de caps que tiene el Manga:\n");
+            manga.MaxCaps = int.TryParse(Console.ReadLine(), out int maxcaps) ? maxcaps : manga.MaxCaps;
+
+
+            Console.Clear();
+            Console.WriteLine("\nEscribe el numero del ultimo cap que has visto:\n");
+            manga.LastViewCap = int.TryParse(Console.ReadLine(), out int lastcap) ? lastcap : manga.LastViewCap;
+
+            Console.Clear();
+            Console.WriteLine("\nEscribe los nombres o numero de Precuelas del Manga\n" +
+                "(solo en caso de tener escribelos como en la seccion de Generos, caso contrario solo presiona Enter\n");
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = SaveListFormater(manga.Tags, ",");
+            manga.Tags = ReturnListItems(Answer, ',');
+
+            Console.Clear();
+            Console.WriteLine("\nEscribe los nombres o numero de Secuelas del Manga\n" +
+                "(solo en caso de tener escribelos como en la seccion de Generos, caso contrario solo presiona Enter\n");
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = SaveListFormater(manga.Tags, ",");
+            manga.Tags = ReturnListItems(Answer, ',');
+
+
+            Console.Clear();
+            Console.WriteLine("\nEscribe los nombres o numero de SpinOffs del Manga\n" +
+                "(solo en caso de tener escribelos como en la seccion de Genero, caso contrario solo presiona Enter\n");
+            Answer = Console.ReadLine();
+            if (Answer == "") Answer = SaveListFormater(manga.Tags, ",");
+            manga.Tags = ReturnListItems(Answer, ',');
+
+
+            Console.Clear();
+            Console.WriteLine("\nManga Agregado Correctamente\n");
 
             return manga;
         }
@@ -601,10 +678,9 @@ namespace Okaimono_CMD_Version
         void PrintAnyItem(Anime? anime, Manga? manga)
         {
             string? Answer = default;
-
             if (anime != null)
             {
-                while (Answer != "E" || Answer != "e" || Answer == null)
+                while (Answer != "e" || Answer == null)
                 {
                     Console.Clear();
                     Console.WriteLine("\n----------------Anime----------------");
@@ -614,7 +690,7 @@ namespace Okaimono_CMD_Version
                     Console.Write(SaveListFormater(anime.Tags, ", "));
 
                     Console.WriteLine("\nEn Emision: " + anime.InLive);
-                    Console.WriteLine("Siguiente Capitulo: " + anime.NextNewCap);
+                    Console.WriteLine("Dia del Proximo Capitulo: " + TranslateDay(anime.NextNewCap,0));
                     Console.WriteLine("No. Capitulos: " + anime.MaxCaps);
                     Console.WriteLine("Ultimo Capitulo Visto: " + anime.LastViewCap);
 
@@ -630,11 +706,13 @@ namespace Okaimono_CMD_Version
                     Console.Write("\nSpinOffs: ");
                     Console.Write(SaveListFormater(anime.SpinOffs, ", "));
 
-                    Console.WriteLine("\nOvas: ");
+                    Console.WriteLine("\nOvas: " + anime.Ovas);
 
 
                     Console.WriteLine("\n\nEscribe (E/e) para salir al menu principal");
                     Answer = Console.ReadLine();
+
+                    Answer = Answer.ToLower();
                     if (Answer == "E" || Answer == "e")
                     {
                         Console.Clear();
@@ -670,6 +748,8 @@ namespace Okaimono_CMD_Version
 
                     Console.WriteLine("\n\n\nEscribe (E/e) para salir al menu principal");
                     Answer = Console.ReadLine();
+
+                    Answer = Answer.ToLower();
                     if (Answer == "E" || Answer == "e")
                     {
                         Console.Clear();
@@ -687,61 +767,75 @@ namespace Okaimono_CMD_Version
         /// </summary>
         public void SearchItem()
         {
+            string ItemType = default;
+            Search:
             Console.Clear();
-            Console.WriteLine("\nEscribe el nombre del Anime:\n");
+            Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
             string Name = Console.ReadLine();
-
+            if (Name == "e" || Name.ToLower() == "exit")
+            {
+                ItemType = "e";
+                goto exit;
+            }
             Console.Clear();
-            Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
-            string ItemType = Console.ReadLine();
+            Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m])\n \nSi deseas salir escribe [E/e]:\n\n");
+            ItemType = Console.ReadLine();
+            ItemType = ItemType.ToLower();
             while (Name == "" || ItemType == "")
             {
                 PRFM.PlaySound("error");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Clear();
-                Console.WriteLine("\nERROR: Nombre de Usuario invalido");
+                Console.WriteLine("\nERROR: Nombre del Elemento invalido");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Vuelve a intentarlo");
-                Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("\nDime, Como te gustaria que te llame?");
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("\nNota: Recuerda no usar caracteres especiales como espacios");
-                Console.WriteLine("ya que no solo sera tu nombre de usuario si no que tambien " +
-                                "\nuna de las llaves para poder acceder a la base de datos\n\n");
+                Console.WriteLine("\nNota: Recuerda no escribir espacios al final del nombre");
                 Console.ForegroundColor = ConsoleColor.White;
+                Task.Delay(1000).Wait();
+
+                Console.Clear();
+                Console.WriteLine("\nEscribe el nombre del Anime o Manga:\n");
                 Name = Console.ReadLine();
+
+                Console.Clear();
+                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
                 ItemType = Console.ReadLine();
             }
-            Name = Name.ToLower();
-            if (ItemType == "A" || ItemType == "a")
+            exit:
+            if (ItemType == "a" || ItemType.ToLower() == "anime")
             {
-                if (database.AnimeList.Exists(x => x.Name.ToLower() == Name))
+                if (database.AnimeList.Exists(x => x.Name == Name))
                 {
                     PRFM.PlaySound("find");
-                    PrintAnyItem(database.AnimeList.Find(x => x.Name.ToLower() == Name), null);
+                    PrintAnyItem(database.AnimeList.Find(x => x.Name == Name), null);
                 }
                 else
                 {
                     PRFM.PlaySound("error");
                     Console.WriteLine("No existe el anime");
-                    Task.Delay(1000);
+                    Task.Delay(1000).Wait();
+                    goto Search;
                 }
                     
             }
-            else if (ItemType == "M" || ItemType == "m")
+            else if (ItemType == "m" || ItemType.ToLower() == "manga")
             {
-                if (database.MangaList.Exists(x => x.Name.ToLower() == Name))
+                if (database.MangaList.Exists(x => x.Name == Name))
                 {
                     PRFM.PlaySound("find");
-                    PrintAnyItem(null, database.MangaList.Find(x => x.Name.ToLower() == Name));
+                    PrintAnyItem(null, database.MangaList.Find(x => x.Name == Name));
                 }
                 else
                 {
                     PRFM.PlaySound("error");
-                    Console.WriteLine("No existe el manga");
-                    Task.Delay(1000);
+                    Console.WriteLine("No existe el anime");
+                    Task.Delay(1000).Wait();
+                    goto Search;
                 }
+            }
+            else if (ItemType == "e" || ItemType.ToLower() == "exit")
+            {
+                return;
             }
         }
 
@@ -750,7 +844,7 @@ namespace Okaimono_CMD_Version
         /// <summary>
         /// 
         /// </summary>
-        public void KoffiForMe()
+        public void BuyMeAKoffi()
         {
             string url = "https://ko-fi.com/dotchoco"; // Reemplaza esta URL con la que deseas abrir
 
@@ -773,7 +867,91 @@ namespace Okaimono_CMD_Version
         /// </summary>
         public void TransformItem()
         {
-            
+            Search:
+            Console.Clear();
+            Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
+            string Name = Console.ReadLine();
+            if (Name == "e" || Name.ToLower() == "exit")
+                goto exit;
+            Console.Clear();
+            Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]\n \nSi deseas salir escribe [E/e]:\n\n");
+            string ItemType = Console.ReadLine();
+
+            ItemType = ItemType.ToLower();
+
+            while (Name == "" || ItemType == "")
+            {
+                PRFM.PlaySound("error");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Clear();
+                Console.WriteLine("\nERROR: Nombre del Elemento invalido");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("Vuelve a intentarlo");
+                Console.WriteLine("\nNota: Recuerda no escribir espacios al final del nombre");
+                Console.ForegroundColor = ConsoleColor.White;
+                Task.Delay(1000).Wait();
+
+                Console.Clear();
+                Console.WriteLine("\nEscribe el nombre del Anime o Manga:\n");
+                Name = Console.ReadLine();
+
+                Console.Clear();
+                Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]):\n");
+                ItemType = Console.ReadLine();
+            }
+
+            if (ItemType == "a" || ItemType.ToLower() == "anime")
+            {
+                Anime anime = new();
+                if (database.AnimeList.Exists(x => x.Name == Name))
+                {
+                    PRFM.PlaySound("find");
+                    anime = database.AnimeList.Find(x => x.Name == Name);
+                    anime = AddNewAnime(anime);
+
+                    PRFM.PlaySound("update");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Ficha del del Anime '" + anime.Name + "' acualizada correctamente");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    //PrintAnyItem(database.AnimeList.Find(anime => anime.Name.ToLower() == Name), null);
+                }
+                else
+                {
+                    PRFM.PlaySound("error");
+                    Console.WriteLine("No existe el anime");
+                    Task.Delay(1000).Wait();
+                    goto Search;
+                }
+
+            }
+            else if (ItemType == "m" || ItemType.ToLower() == "manga")
+            {
+                Manga manga = new();
+                if (database.MangaList.Exists(manga => manga.Name == Name))
+                {
+                    PRFM.PlaySound("find");
+                    manga = database.MangaList.Find(x => x.Name == Name);
+                    manga = AddNewManga(manga);
+
+                    PRFM.PlaySound("update");
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("Ficha del Manga '" + manga.Name + "' acualizada correctamente");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    //PrintAnyItem(null, database.MangaList.Find(manga => manga.Name.ToLower() == Name));
+                }
+                else
+                {
+                    PRFM.PlaySound("error");
+                    Console.WriteLine("No existe el manga");
+                    Task.Delay(1000);
+                    goto Search;
+                }
+            }
+            else if (ItemType == "e" || ItemType.ToLower() == "exit")
+                return;
+
+            exit:
+            UpdateDOKDB(database);
         }
 
 
@@ -787,14 +965,16 @@ namespace Okaimono_CMD_Version
             Console.WriteLine("\n----------------Animes Emitidos Hoy----------------");
             foreach (var Anime in database.AnimeList)
             {
-                if (Anime.NextNewCap == GetWeekDay())
+                if (Anime.NextNewCap == GetWeekDay() && Anime.InLive.ToLower() == "si" ||
+                    Anime.NextNewCap == GetWeekDay() && Anime.InLive == "yes")
                 {
                     counter++;
                     Console.WriteLine("\nNombre: " + Anime.Name);
-                    Console.WriteLine("En Emision: " + Anime.InLive);
-                    Console.WriteLine("Siguiente Capitulo: " + Anime.NextNewCap);
+                    Console.WriteLine("Generos: " + SaveListFormater(Anime.Tags, ", "));
+                    Console.WriteLine("Ultimo Capitulo Visto: " + Anime.LastViewCap);
                     Console.WriteLine("No. Capitulos: " + Anime.MaxCaps);
-                    Console.WriteLine("Ultimo Capitulo Visto: " + Anime.LastViewCap + "\n\n");
+                    Console.WriteLine("Proximo Capitulo: " + TranslateDay(Anime.NextNewCap,0));
+                    Console.WriteLine("\n\n");
                 }
 
             }
@@ -831,6 +1011,77 @@ namespace Okaimono_CMD_Version
 
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Day"></param>
+        /// <param name="Languaje"></param>
+        /// <returns></returns>
+        string TranslateDay(string Day, byte Languaje = 1)
+        {
+            string result = default;
+
+            //español
+            if (Languaje == 0) { 
+                switch (Day)
+                {
+                    case "Monday":
+                        result = "Lunes";
+                        break;
+                    case "Tuesday":
+                        result = "Martes";
+                        break;
+                    case "Wednesday":
+                        result = "Miercoles";
+                        break;
+                    case "Thursday":
+                        result = "Jueves";
+                        break;
+                    case "Friday":
+                        result = "Viernes";
+                        break;
+                    case "Saturday":
+                        result = "Sabado";
+                        break;
+                    case "Sunday":
+                        result = "Domingo";
+                        break;
+                }
+            }
+
+            //ingles
+            else if (Languaje == 1)
+            {
+                switch (Day)
+                {
+                    case "Lunes":
+                        result = "Monday";
+                        break;
+                    case "Martes":
+                        result = "Tuesday";
+                        break;
+                    case "Miercoles":
+                        result = "Wednesday";
+                        break;
+                    case "Jueves":
+                        result = "Thursday";
+                        break;
+                        case "Viernes":
+                        result = "Friday";
+                        break;
+                    case "Sabado":
+                        result = "Saturday";
+                        break;
+                    case "Domingo":
+                        result = "Sunday";
+                        break;
+                }
+            }
+
+            return result;
+        }
 
 
         #endregion
