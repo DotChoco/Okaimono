@@ -148,7 +148,7 @@ namespace Okaimono_Desktop
             string Item = default;
             for (int i = 0; i < Data.Length; i++)
             {
-                if (Data[i] == ',' || i == Data.Length-1)
+                if (Data[i] == '/' || i == Data.Length-1)
                 {
                     if (i == Data.Length - 1)
                         Item += Data[i];
@@ -277,40 +277,42 @@ namespace Okaimono_Desktop
             StreamWriter DataWriter;
             DataWriter = new StreamWriter(PRFM.GetDOKDB + "DOKDB");
 
-
-            foreach (var Anime in DB.AnimeList)
+            if (DB.AnimeList != null)
+                foreach (var Anime in DB.AnimeList)
             {
                 MainString = "Anime:(";
-                MainString += "[" + Anime.Name + "],";
-                MainString += "[" + SaveListFormater(Anime.Tags) + "],";
-                MainString += "[" + Anime.InLive + "],";
-                MainString += "[" + Anime.NextNewCap + "],";
-                MainString += "[" + Anime.MaxCaps + "],";
-                MainString += "[" + Anime.LastViewCap + "],";
-                MainString += "[" + SaveListFormater(Anime.Prequels) + "],";
-                MainString += "[" + SaveListFormater(Anime.Sequels) + "],";
-                MainString += "[" + SaveListFormater(Anime.Movies) + "],";
-                MainString += "[" + SaveListFormater(Anime.SpinOffs) + "],";
+                MainString += "[" + Anime.Name + "]/";
+                MainString += "[" + SaveListFormater(Anime.Tags) + "]/";
+                MainString += "[" + Anime.InLive + "]/";
+                MainString += "[" + Anime.NextNewCap + "]/";
+                MainString += "[" + Anime.MaxCaps + "]/";
+                MainString += "[" + Anime.LastViewCap + "]/";
+                MainString += "[" + SaveListFormater(Anime.Prequels) + "]/";
+                MainString += "[" + SaveListFormater(Anime.Sequels) + "]/";
+                MainString += "[" + SaveListFormater(Anime.Movies) + "]/";
+                MainString += "[" + SaveListFormater(Anime.SpinOffs) + "]/";
                 MainString += "[" + Anime.Ovas + "])";
                 DataWriter.WriteLine(MainString);
                 MainString = default;
             }
 
-            foreach (var Manga in DB.MangaList)
-            {
-                MainString = "Manga:(";
-                MainString += "[" + Manga.Name + "],";
-                MainString += "[" + SaveListFormater(Manga.Tags) + "],";
-                MainString += "[" + Manga.OnGoing + "],";
-                MainString += "[" + Manga.MaxCaps + "],";
-                MainString += "[" + Manga.LastViewCap + "],";
-                MainString += "[" + SaveListFormater(Manga.Prequels) + "],";
-                MainString += "[" + SaveListFormater(Manga.Sequels) + "],";
-                MainString += "[" + SaveListFormater(Manga.SpinOffs) + "])";
-                DataWriter.WriteLine(MainString);
-                MainString = default;
-            }
-            
+
+            if (DB.MangaList != null)
+                foreach (var Manga in DB.MangaList)
+                {
+                    MainString = "Manga:(";
+                    MainString += "[" + Manga.Name + "],";
+                    MainString += "[" + SaveListFormater(Manga.Tags) + "],";
+                    MainString += "[" + Manga.OnGoing + "],";
+                    MainString += "[" + Manga.MaxCaps + "],";
+                    MainString += "[" + Manga.LastViewCap + "],";
+                    MainString += "[" + SaveListFormater(Manga.Prequels) + "],";
+                    MainString += "[" + SaveListFormater(Manga.Sequels) + "],";
+                    MainString += "[" + SaveListFormater(Manga.SpinOffs) + "])";
+                    DataWriter.WriteLine(MainString);
+                    MainString = default;
+                }
+
             DataWriter.WriteLine(DateToString());
 
             DataWriter.Close();
@@ -386,11 +388,12 @@ namespace Okaimono_Desktop
         /// <param name="ItemType">Type of the element</param>
         public void DeleteItem()
         {
+            Again:
             string ItemType= default;
             Console.Clear();
             Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
-            string Name = Console.ReadLine().ToLower();
-            if (Name == "e" || Name == "exit")
+            string Name = Console.ReadLine();
+            if (Name.ToLower() == "e")
             {
                 ItemType = "e";
                 goto exit;
@@ -432,7 +435,12 @@ namespace Okaimono_Desktop
                 else
                 {
                     PRFM.PlaySound("error");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("No existe el anime");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Task.Delay(1500).Wait();
+                    goto Again;
                 }
             }
             else if(ItemType == "m")
@@ -443,7 +451,12 @@ namespace Okaimono_Desktop
                 else
                 {
                     PRFM.PlaySound("error");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Clear();
                     Console.WriteLine("No existe el manga");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Task.Delay(1500).Wait();
+                    goto Again;
                 }
             }
             else if (ItemType == "e")
@@ -460,6 +473,8 @@ namespace Okaimono_Desktop
         /// </summary>
         public void CreateNewItem()
         {
+            Anime NewAnime = new();
+            Manga NewManga = new();
             Console.Clear();
             Console.WriteLine("\nQue tipo de elemento quieres crear? Anime[A/a], Manga[M/m]\n");
             Console.WriteLine("\nSi deseas salir escribe [E/e]:\n\n");
@@ -475,7 +490,8 @@ namespace Okaimono_Desktop
                 Console.WriteLine("\nERROR: La respuesta ingresada no es valida");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Vuelve a intentarlo");
-                Console.ReadKey();
+                Task.Delay(1000).Wait();
+
                 Console.Clear();
                 Console.WriteLine("\nQue tipo de elemento quieres crear? Anime[A/a], Manga[M/m]\n");
                 Console.WriteLine("\nSi deseas salir escribe [E/e]:\n\n");
@@ -483,21 +499,25 @@ namespace Okaimono_Desktop
             }
             if (Answer == "a")
             {
-                database.AnimeList.Add(AddNewAnime());
+                NewAnime = AddNewAnime();
+                database.AnimeList.Add(NewAnime);
+                PRFM.PlaySound("create");
+                UpdateDOKDB(database);
+                PrintAnyItem(NewAnime,null);
             }
             else if(Answer == "m")
             {
-                database.MangaList.Add(AddNewManga());
+                NewManga = AddNewManga();
+                database.MangaList.Add(NewManga);
+                PRFM.PlaySound("create");
+                UpdateDOKDB(database);
+                PrintAnyItem(null,NewManga);
             }
             else if (Answer == "e")
             {
                 Console.Clear();
                 return;
             }
-            UpdateDOKDB(database);
-
-            PRFM.PlaySound("create");
-            Task.Delay(500).Wait();
         }
 
 
@@ -529,6 +549,7 @@ namespace Okaimono_Desktop
             Console.Clear();
             Console.WriteLine("\nEscribe 'Si' o 'No' si esta en Emision:\n");
             Answer = Console.ReadLine();
+            Answer= Answer.Substring(0, 1).ToUpperInvariant() + Answer.Substring(1).ToLowerInvariant();
             if (Answer == "") Answer = anime.InLive;
             anime.InLive = Answer;
 
@@ -536,7 +557,6 @@ namespace Okaimono_Desktop
             Console.WriteLine("\nEscribe el dia de la semana que se emite(ejemplo: Lunes):\n");
             Answer = Console.ReadLine();
             if (Answer != "") anime.NextNewCap = TranslateDay(Answer);
-            //anime.NextNewCap = TranslateDay(Answer);
 
             Console.Clear();
             Console.WriteLine("\nEscribe el numero maximo de caps que tiene el Anime:\n");
@@ -773,7 +793,7 @@ namespace Okaimono_Desktop
             Console.Clear();
             Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
             string Name = Console.ReadLine();
-            if (Name == "e" || Name.ToLower() == "exit")
+            if (Name.ToLower() == "e")
             {
                 ItemType = "e";
                 goto exit;
@@ -795,7 +815,7 @@ namespace Okaimono_Desktop
 
                 Console.Clear();
                 Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
-                Name = Console.ReadLine().ToLower();
+                Name = Console.ReadLine();
 
                 Console.Clear();
                 Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m])\n \nSi deseas salir escribe [E/e]:\n\n");
@@ -812,7 +832,10 @@ namespace Okaimono_Desktop
                 else
                 {
                     PRFM.PlaySound("error");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("No existe el anime");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Task.Delay(1000).Wait();
                     goto Search;
                 }
@@ -828,7 +851,10 @@ namespace Okaimono_Desktop
                 else
                 {
                     PRFM.PlaySound("error");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("No existe el anime");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Task.Delay(1000).Wait();
                     goto Search;
                 }
@@ -871,7 +897,7 @@ namespace Okaimono_Desktop
             Console.Clear();
             Console.WriteLine("\nEscribe el nombre del Anime o Manga\n \nSi deseas salir escribe [E/e]:\n\n");
             string Name = Console.ReadLine();
-            if (Name == "e" || Name.ToLower() == "exit")
+            if (Name.ToLower() == "e")
                 goto exit;
             Console.Clear();
             Console.WriteLine("\nEscribe el tipo de Elemento Anime[A/a] o Manga[M/m]\n \nSi deseas salir escribe [E/e]:\n\n");
@@ -918,7 +944,10 @@ namespace Okaimono_Desktop
                 else
                 {
                     PRFM.PlaySound("error");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("No existe el anime");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Task.Delay(1000).Wait();
                     goto Search;
                 }
@@ -937,12 +966,14 @@ namespace Okaimono_Desktop
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Ficha del Manga '" + manga.Name + "' acualizada correctamente");
                     Console.ForegroundColor = ConsoleColor.White;
-                    //PrintAnyItem(null, database.MangaList.Find(manga => manga.Name.ToLower() == Name));
                 }
                 else
                 {
                     PRFM.PlaySound("error");
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("No existe el manga");
+                    Console.ForegroundColor = ConsoleColor.White;
                     Task.Delay(1000);
                     goto Search;
                 }
@@ -1070,27 +1101,27 @@ namespace Okaimono_Desktop
             //ingles
             else if (Languaje == 1)
             {
-                switch (Day)
+                switch (Day.ToLower())
                 {
-                    case "Lunes":
+                    case "lunes":
                         result = "Monday";
                         break;
-                    case "Martes":
+                    case "martes":
                         result = "Tuesday";
                         break;
-                    case "Miercoles":
+                    case "miercoles":
                         result = "Wednesday";
                         break;
-                    case "Jueves":
+                    case "jueves":
                         result = "Thursday";
                         break;
-                        case "Viernes":
+                    case "viernes":
                         result = "Friday";
                         break;
-                    case "Sabado":
+                    case "sabado":
                         result = "Saturday";
                         break;
-                    case "Domingo":
+                    case "domingo":
                         result = "Sunday";
                         break;
                 }
