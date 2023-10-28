@@ -24,7 +24,7 @@ En caso de cualquier duda, sugerencia o reporte de bug/error realizar un issue d
 
 
 ## Instalacion
-Primero debes de descargar la version 6 de DotNet preferiblemente tanto la version de x86 como de x64
+Primero debes de descargar la version 6 de DotNet 
 https://dotnet.microsoft.com/es-es/download/dotnet/6.0
 
 Despues solo debes de ir a Releases y descargar el archivo Okaimono.zip y una vez descargado 
