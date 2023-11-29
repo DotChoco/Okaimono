@@ -1,37 +1,34 @@
 # Okaimono
-Este Programa tiene como objetivo el ayudar al manejo de gestion del contenido 
-que el usuario esta consimiendo mediante la creacion de fichas de contenido.
+This Program aims to help manage content management
+that the user is consenting by creating content sheets.
 
-El programa esta diseñado para que el usuario pueda crear fichas de contenido
-de manera rapida y sencilla, ademas de que el programa cuenta con una interfaz
-de consola que facilita el uso del programa.
+The program is designed so that the user can create content sheets
+quickly and easily, in addition to the program having an interface
+console that facilitates the use of the program.
 
-Algunos datos generales que se guardaran en las fichas son los siguientes:
+Some general data that will be saved in the files are the following:
 
-- Tipo de contenido
-- Nombre del contenido
-- Generos del contenido
-- Estado del contenido(En emisio o Finalizado)
-- Ultimo capitulo visto
-- Numero de capitulos
-- Precuelas
-- Secuelas
+- Type of content
+- Name of the content
+- Geneders of the content
+- Status of the content (In issue or Completed)
+- Last chapter seen
+- Number of chapters
+- Prequele
+- Sequel
 
-En ningun momento se recolectara informacion personal del usuario, ni se enviara 
-informacion a terceros. Y El programa esta lanzado bajo la licencia CC BY-SA 4.0
+In case of any doubt, suggestion or bug / error report make a detailed issue.
 
-En caso de cualquier duda, sugerencia o reporte de bug/error realizar un issue detallado.
-
-
-## Instalacion
-Primero debes de descargar la version 6 de DotNet 
+## Installation
+You must first download DotNet version 6
 https://dotnet.microsoft.com/es-es/download/dotnet/6.0
 
-Despues solo debes de ir a Releases y descargar el archivo Okaimono.zip y una vez descargado 
-descomprimes la carpeta en la ruta que quieras
+Then you just have to go to Releases and download the Okaimono.zip file and once downloaded
+unzip the folder in the path you want.
 
 ## License
-<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+At no time will the user's personal information be collected or sent
+information to third parties. The program is released under the CC BY-SA 4.0 license
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/MrChocoreto/Okaimono">Okaimono</a> by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/MrChocoreto">Chocoreto Stonus</a> is licensed under <a href="http://creativecommons.org/licenses/by-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">CC BY-SA 4.0<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
 
-Creado por: ChocoretoStonus
 
