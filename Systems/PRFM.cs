@@ -1,8 +1,8 @@
 ﻿using NAudio.Wave;
-using Okaimono_Desktop.Properties;
+using Okaimono.Properties;
 using System.Media;
 
-namespace Okaimono_Desktop
+namespace Okaimono
 {
 	public class PRFM
 	{

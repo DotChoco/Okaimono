@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using System.Diagnostics;
 using System.Globalization;
-using Okaimono_Desktop.Properties;
+using Okaimono.Properties;
 
-namespace Okaimono_Desktop
+namespace Okaimono
 {
     public class DCFF
     {

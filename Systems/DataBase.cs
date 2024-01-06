@@ -1,6 +1,4 @@
-﻿
-
-public class DataBase
+﻿public class DataBase
 {
     public List<Anime> AnimeList = new();
     public List<Manga> MangaList = new();

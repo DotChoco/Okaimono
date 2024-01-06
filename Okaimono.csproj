@@ -5,16 +5,20 @@
     <TargetFramework>net6.0-windows10.0.18362.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <StartupObject>Okaimono_Desktop.Program</StartupObject>
+    <StartupObject>Okaimono.Program</StartupObject>
     <AssemblyName>Okaimono</AssemblyName>
     <BaseOutputPath>bin\</BaseOutputPath>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <SupportedOSPlatformVersion>10.0.18362.0</SupportedOSPlatformVersion>
-    <ApplicationIcon>Okaimono.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Okaimono.ico</ApplicationIcon>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\Okaimono.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.1.0" />

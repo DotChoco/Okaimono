@@ -1,15 +1,15 @@
-﻿namespace Okaimono_Desktop
+﻿namespace Okaimono
 {
     public class OkaiSelector
     {
-        DCFF DCFF = new DCFF();
+        DCFF DCFF = new();
 
         public OkaiSelector()
         {
             DCFF.Main();
             string? Answer = default;
 
-            while (Answer != "E" || Answer != "e" || Answer == null)
+            while (Answer != "E" || Answer != "e")
             {
                 Console.Clear();
                 Presentation();
@@ -73,12 +73,6 @@
             Console.WriteLine("\n\n");
 
         }
-
-
-
-
-
-
 
     }
 }
