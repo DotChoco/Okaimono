@@ -1,4 +1,4 @@
-﻿namespace Okaimono_Desktop
+﻿namespace Okaimono
 {
     internal class Program
     {
