@@ -1,0 +1,31 @@
+Created by: ChocoretoStonus
+
+
+Este Programa tiene como objetivo el ayudar al manejo de gestion del contenido 
+que el usuario esta consimiendo mediante la creacion de fichas de contenido.
+
+El programa esta diseñado para que el usuario pueda crear fichas de contenido
+de manera rapida y sencilla, ademas de que el programa cuenta con una interfaz
+de consola que facilita el uso del programa.
+
+Para el manejo de las fichas de contenido se utilizara un archivo de texto
+en el cual se guardaran las fichas. Estas pueden ser manipuladas por el
+usuario ya sea mediante el programa o de manera externa. Siendo esto algo que 
+facilita crear un respaldo de las fichas en cualquier momento.
+
+Los datos que se guardaran en las fichas a rasgos generales son los siguientes:
+
+- Tipo de contenido
+- Nombre del contenido
+- Generos del contenido
+- Estado del contenido(En emisio o Finalizado)
+- Ultimo capitulo visto
+- Numero de capitulos
+- Precuelas
+- Secuelas
+
+En ningun momento se recolectara informacion personal del usuario, ni se enviara 
+informacion a terceros. Y El programa esta lanzado bajo la licencia CC BY-SA 4.0
+
+En caso de cualquier duda, sugerencia o reporte de error, realizar un issue en el 
+repositorio del programa en GitHub.
