@@ -1,10 +1,14 @@
-﻿namespace Okaimono
+﻿
+using Okaimono.src;
+
+namespace Okaimono
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            OkaiSelector okaiSelector = new();
+            Render render = new();
+            render.Awake();
         }
     }
 }

@@ -40,4 +40,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Using Include="System.Text.Json" />
+  </ItemGroup>
+
 </Project>

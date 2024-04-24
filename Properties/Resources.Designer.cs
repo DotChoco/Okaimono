@@ -81,15 +81,6 @@ namespace Okaimono.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream DBGS {
-            get {
-                return ResourceManager.GetStream("DBGS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
         internal static System.IO.UnmanagedMemoryStream delete {
             get {
                 return ResourceManager.GetStream("delete", resourceCulture);
