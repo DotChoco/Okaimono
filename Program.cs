@@ -7,7 +7,7 @@ namespace Okaimono
     {
         static void Main(string[] args)
         {
-            Render render = new();
+            DotRender render = new();
             render.Awake();
         }
     }

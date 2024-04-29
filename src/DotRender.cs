@@ -1,44 +1,15 @@
 ﻿
 namespace Okaimono.src
 {
-    internal class Render
+    public class DotRender
     {
-
+        Backend backend = new();
         public void Awake()
         {
             Console.Title = "Okaimono";
+            //backend.Start();
 
-            Backend backend = new();
-            backend.Main();
-
-            //User_Testing
-            Func<bool> func = () =>
-            {
-                Console.WriteLine("Washoiii");
-                Task.Delay(500).Wait();
-                return default;
-            };
-            Func<bool> funco = () =>
-            {
-                Console.WriteLine("No Wonder Stage");
-                Task.Delay(500).Wait();
-                return default;
-            };
-
-
-            Func<bool> func2 = () =>
-            {
-                Presentation();
-                return default;
-            };
-
-            Func<bool>[] funcs = new Func<bool>[3];
-            funcs[0] = func;
-            funcs[1] = funco;
-            funcs[2] = func2;
-            ConsoleColor[] colors = new ConsoleColor[2] { ConsoleColor.White, ConsoleColor.DarkMagenta };
-            Dot_Menu(new string[] { "Yokoso", "Kira kira", "Doki doki", "Mochi mochi" },
-                                   funcs, colors);
+            DotTesting();
         }
 
 
@@ -123,5 +94,37 @@ namespace Okaimono.src
 
         }
 
+
+        void DotTesting()
+        {
+            //User_Testing
+            Func<bool> func = () =>
+            {
+                Console.WriteLine("Washoiii");
+                Task.Delay(500).Wait();
+                return default;
+            };
+            Func<bool> funco = () =>
+            {
+                Console.WriteLine("No Wonder Stage");
+                Task.Delay(500).Wait();
+                return default;
+            };
+
+
+            Func<bool> func2 = () =>
+            {
+                Presentation();
+                return default;
+            };
+
+            Func<bool>[] funcs = new Func<bool>[3];
+            funcs[0] = func;
+            funcs[1] = funco;
+            funcs[2] = func2;
+            ConsoleColor[] colors = new ConsoleColor[2] { ConsoleColor.White, ConsoleColor.DarkMagenta };
+            Dot_Menu(new string[] { "Yokoso", "Kira kira", "Doki doki", "Mochi mochi" },
+                                   funcs, colors);
+        }
     }
 }
