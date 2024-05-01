@@ -19,10 +19,10 @@ namespace Okaimono.src
         #region Public_Methods
 
 
-        public void SetData(DataModels database, string path) => SaveData();
+        public void SaveData() => Save();
 
 
-        public void GetData() => LoadData();
+        public void LoadData() => Load();
 
 
         #endregion
@@ -31,7 +31,7 @@ namespace Okaimono.src
 
         #region Private_Methods
 
-        void SaveData()
+        void Save()
         {
             if (Logs.DBSaveErrors.TryGetValue(TryGetOrSaveProfile(), out string log)
                 && log != "Successful Process")
@@ -50,7 +50,7 @@ namespace Okaimono.src
         }
 
 
-        void LoadData()
+        void Load()
         {
             if (Logs.DBLoadErrors.TryGetValue(TryGetOrSaveProfile(), out string log)
                 && log != "Successful Process")

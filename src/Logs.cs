@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace Okaimono.src
 {
     public static class Logs
@@ -58,6 +53,18 @@ namespace Okaimono.src
                                                                      //presento un error al convertir la informacion
         {5, "Failed Process, error while loading the profile S03" },//S03 = 
         };
+
+
+
+        public static Dictionary<byte, string> BackendErrors = new Dictionary<byte, string>() {
+        {1, "Failed Search, the element that you want don't exist B01" },//B01 = Retorna un dato nulo ya que no se pudo encontrar el
+                                                                         //elemento que se estaba buscando
+        {2, "Failed Redirection, the link doesn't exist or it's incorrect B02" },//B02 = No existe el link al que se hace referencia o
+                                                                                 //esta mal escrito
+        
+        };
+
+
 
     }
 }

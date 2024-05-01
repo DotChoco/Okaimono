@@ -1,5 +1,4 @@
-﻿
-using Models;
+﻿using Models;
 
 namespace Okaimono.src
 {
@@ -10,8 +9,10 @@ namespace Okaimono.src
 
         const string profilePath = @"D:/Okaimono/";
         const string profileFileName= "Profile.dcf"; //.dcf = dot choco file
-        public static User user = new();
+        private (byte, string) dataLogs = default;
 
+        public (byte, string) GetDataLogs { get => dataLogs; }
+        public static User user = new();
         #endregion
 
 
@@ -24,11 +25,10 @@ namespace Okaimono.src
         public void ReadUser() => Read(profilePath);
 
 
-        public void UpdateUser(string userName, string dbPath) 
-            => UpdateUserData(userName, dbPath);
+        public void UpdateUser() => UpdateUserData();
 
 
-        public void DeleteUser() => UpdateUserData("Unknown", profilePath);
+        public void DeleteUser() => UpdateUserData();
 
         #endregion
 
@@ -47,45 +47,29 @@ namespace Okaimono.src
             streamWriter.Close();
         }
 
-
-        void Read(string profilePath)
+        string Read(string profilePath)
         {
-            if (Logs.ProfileLoadErrors.TryGetValue(TryGetOrSaveProfile(), out string log)
-                && log != "Successful Process")
+            string log = GetLog(TryGetOrSaveProfile());
+            if (log == "Successful Process")
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(log);
-                Console.ForegroundColor = ConsoleColor.White;
-                Create("Unknown");
-            }
-            else
-            {
-                StreamReader sr = new(profilePath +profileFileName);
+                StreamReader sr = new(profilePath + profileFileName);
                 user = JsonSerializer.Deserialize<User>(sr.ReadToEnd());
                 sr.Close();
             }
+            return log;
         }
 
-
-        void UpdateUserData(string username = "Unknown", string dbPath = profilePath)
+        string UpdateUserData()
         {
-
-            if (Logs.ProfileSaveErrors.TryGetValue(TryGetOrSaveProfile(), out string log)
-                && log != "Successful Process")
+            string log = GetLog(TryGetOrSaveProfile());
+            if (log == "Successful Process")
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(log);
-                Console.ForegroundColor = ConsoleColor.White;
-                Create(username);
-            }
-            else
-            {
-                StreamWriter sw = new(dbPath + profileFileName);
+                StreamWriter sw = new(profilePath + profileFileName);
                 sw.Write(JsonSerializer.Serialize(user));
                 sw.Close();
             }
+            return log;
         }
-
 
         byte TryGetOrSaveProfile()
         {
@@ -93,6 +77,14 @@ namespace Okaimono.src
             if (!File.Exists(profilePath + profileFileName)) return 1;
             return 0;
         }
+
+        string GetLog(byte logCode)
+        {
+            Logs.BackendErrors.TryGetValue(logCode, out string value);
+            return value;
+        }
+
+
 
         #endregion
 
