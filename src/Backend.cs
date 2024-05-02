@@ -14,6 +14,8 @@ namespace Okaimono.src
         private (byte, string) dataLogs = default;
 
         public (byte, string) GetDataLogs { get => dataLogs; }
+        public Profile UserProfile { get => userProfile; }
+        public Database DB { get => database; }
         #endregion
 
 
@@ -68,7 +70,6 @@ namespace Okaimono.src
                 return manga;
             }
 
-
             //Log de retorno nulo
             dataLogs = (1, Logs.GetBackendLog(1));
             return null;
@@ -80,7 +81,7 @@ namespace Okaimono.src
                 database.Data.AnimeList.Add(item as Anime);
             else if (item.GetType() == typeof(Manga))
                 database.Data.MangaList.Add(item as Manga);
-            database.SaveData();
+            //database.SaveData();
         }
 
         void DeleteAnItem<T>(T item)
@@ -89,14 +90,14 @@ namespace Okaimono.src
                 database.Data.AnimeList.Remove(item as Anime);
             else if(item.GetType() == typeof(Manga))
                 database.Data.MangaList.Remove(item as Manga);
-            database.SaveData();
+            //database.SaveData();
         }
 
         void Edit<T>(T Element)
         {
             if (Element.GetType() == typeof(Anime))
             {
-                database.Data.AnimeList.ForEach(x => 
+                database.Data.AnimeList.ForEach(x =>
                 {
                     if (x.Name == (Element as Anime).Name)
                     {
@@ -114,8 +115,9 @@ namespace Okaimono.src
                     }
                 });
             }
+            //database.SaveData();
         }
-        
+
         void Doc()
         {
             foreach (var Line in Resources.Doc)
