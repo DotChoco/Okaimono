@@ -50,7 +50,7 @@ namespace Okaimono.src
                     anime = database.Data.AnimeList.Find(x => x.Name == name);
                 else { 
                     anime = null;
-                    dataLogs = (1, GetLog(1));
+                    dataLogs = (1, Logs.GetBackendLog(1));
                 }
                 return anime;
             }
@@ -63,14 +63,14 @@ namespace Okaimono.src
                     manga = database.Data.MangaList.Find(x => x.Name == name);
                 else { 
                     manga = null;
-                    dataLogs = (1, GetLog(1));
+                    dataLogs = (1, Logs.GetBackendLog(1));
                 }
                 return manga;
             }
 
 
             //Log de retorno nulo
-            dataLogs = (1, GetLog(1));
+            dataLogs = (1, Logs.GetBackendLog(1));
             return null;
         }
 
@@ -134,14 +134,8 @@ namespace Okaimono.src
             catch (Exception ex)
             {
                 //Console.WriteLine("Error al abrir la página: " + ex.Message);
-                dataLogs = (2, GetLog(2));
+                dataLogs = (2, Logs.GetBackendLog(2));
             }
-        }
-
-        string GetLog(byte logCode)
-        {
-            Logs.BackendErrors.TryGetValue(logCode, out string value);
-            return value;
         }
 
         #endregion

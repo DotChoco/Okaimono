@@ -7,8 +7,6 @@ namespace Okaimono
     {
         static void Main(string[] args)
         {
-            Backend backend = new();
-            backend.Donation();
             //DotRender render = new();
             //render.Awake();
 

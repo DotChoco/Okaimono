@@ -18,12 +18,11 @@ namespace Okaimono.src
 
         #region Public_Methods
 
+        public string SaveData() => Save();
 
-        public void SaveData() => Save();
+        public string LoadData() => Load();
 
-
-        public void LoadData() => Load();
-
+        public void CreateData() => Create();
 
         #endregion
 
@@ -31,43 +30,28 @@ namespace Okaimono.src
 
         #region Private_Methods
 
-        void Save()
+        string Save()
         {
-            if (Logs.DBSaveErrors.TryGetValue(TryGetOrSaveProfile(), out string log)
-                && log != "Successful Process")
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(log);
-                Console.ForegroundColor = ConsoleColor.White;
-                Create();
-            }
-            else
-            {
+            string log = Logs.GetDBLog(TryGetOrSaveProfile());
+            if (log == "Successful Process") {
                 StreamWriter writer = new(dbPath + dbFileName);
                 writer.Write(JsonSerializer.Serialize(Data));
                 writer.Close();
             }
+            return log;
         }
 
-
-        void Load()
+        string Load()
         {
-            if (Logs.DBLoadErrors.TryGetValue(TryGetOrSaveProfile(), out string log)
-                && log != "Successful Process")
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(log);
-                Console.ForegroundColor = ConsoleColor.White;
-                Create();
-            }
-            else
+            string log = Logs.GetDBLog(TryGetOrSaveProfile());
+            if (log == "Successful Process")
             {
                 StreamReader data = new(dbPath+dbFileName);
                 Data = JsonSerializer.Deserialize<DataModels>(data.ReadToEnd());
                 data.Close();
             }
+            return log;
         }
-
 
         void Create()
         {
@@ -79,15 +63,14 @@ namespace Okaimono.src
             streamWriter.Close();
         }
 
-
         byte TryGetOrSaveProfile()
         {
             if (!Directory.Exists(dbPath)) return 2;
             if (!File.Exists(dbPath + dbFileName)) return 1;
             return 0;
         }
-        
+
         #endregion
 
+        }
     }
-}

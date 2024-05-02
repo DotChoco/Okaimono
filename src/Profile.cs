@@ -22,13 +22,13 @@ namespace Okaimono.src
         public void CreateUser(string userName) => Create(userName);
 
 
-        public void ReadUser() => Read(profilePath);
+        public string ReadUser() => Read(profilePath);
 
 
-        public void UpdateUser() => UpdateUserData();
+        public string UpdateUser() => UpdateUserData();
 
 
-        public void DeleteUser() => UpdateUserData();
+        public string DeleteUser() => UpdateUserData();
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace Okaimono.src
 
         string Read(string profilePath)
         {
-            string log = GetLog(TryGetOrSaveProfile());
+            string log = Logs.GetProfileLog(TryGetOrSaveProfile());
             if (log == "Successful Process")
             {
                 StreamReader sr = new(profilePath + profileFileName);
@@ -61,7 +61,7 @@ namespace Okaimono.src
 
         string UpdateUserData()
         {
-            string log = GetLog(TryGetOrSaveProfile());
+            string log = Logs.GetProfileLog(TryGetOrSaveProfile());
             if (log == "Successful Process")
             {
                 StreamWriter sw = new(profilePath + profileFileName);
@@ -77,14 +77,6 @@ namespace Okaimono.src
             if (!File.Exists(profilePath + profileFileName)) return 1;
             return 0;
         }
-
-        string GetLog(byte logCode)
-        {
-            Logs.BackendErrors.TryGetValue(logCode, out string value);
-            return value;
-        }
-
-
 
         #endregion
 

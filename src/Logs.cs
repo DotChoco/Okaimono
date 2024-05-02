@@ -3,6 +3,7 @@ namespace Okaimono.src
 {
     public static class Logs
     {
+        #region Logs
 
         public static Dictionary<byte, string> DBLoadErrors = new Dictionary<byte, string>() {
         {0, "Successful Process" },
@@ -16,7 +17,7 @@ namespace Okaimono.src
                                                                      //de la DB ha sido modificado y quedo corrupto o con otro
                                                                      //tipo de estructura
         };
-        
+
         public static Dictionary<byte, string> DBSaveErrors = new Dictionary<byte, string>() {
         {0, "Successful Process" },
         {1, "Failed Process, error while saving the database because it doesn't exist" },
@@ -64,7 +65,30 @@ namespace Okaimono.src
         
         };
 
+        #endregion
 
+
+        #region GetLogs
+
+        public static string GetBackendLog(byte logCode)
+        {
+            BackendErrors.TryGetValue(logCode, out string value);
+            return value;
+        }
+
+        public static string GetProfileLog(byte logCode)
+        {
+            BackendErrors.TryGetValue(logCode, out string value);
+            return value;
+        }
+
+        public static string GetDBLog(byte logCode)
+        {
+            BackendErrors.TryGetValue(logCode, out string value);
+            return value;
+        }
+
+        #endregion
 
     }
 }
