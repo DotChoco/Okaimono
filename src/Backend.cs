@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace Okaimono.src
 {
+    using Okaimono.Logs;
     public class Backend
     {
 
@@ -11,9 +12,9 @@ namespace Okaimono.src
 
         private Profile userProfile =new();
         private Database database =new();
-        private (byte, string) dataLogs = default;
+        private string dataLog = default;
 
-        public (byte, string) GetDataLogs { get => dataLogs; }
+        public string GetDataLogs { get => dataLog; }
         public Profile UserProfile { get => userProfile; }
         public Database DB { get => database; }
         #endregion
@@ -27,13 +28,12 @@ namespace Okaimono.src
             userProfile.ReadUser();
             database.LoadData();
         }
-
         public bool CloseApplication() => true;
         public void CreateNewItem<T>(T item) => NewItem(item);
-        public object SearchItem(byte item, string name) => Search(item, name);
+        public object SearchItem(bool isAnime, string name) => Search(isAnime, name);
         public void DeleteItem<T>(T item) => DeleteAnItem(item);
-        public void EditItem<T>(T item) =>Edit(item);
-        public void PrintDoc() => Doc();
+        public void EditItem<T>(T item) => Edit(item);
+        public string GetDoc() => Resources.Doc;
         public void Donation() => Koffi();
 
         #endregion
@@ -42,36 +42,36 @@ namespace Okaimono.src
 
         #region Private_Methods
         
-        object Search(byte item, string name)
+        object Search(bool isAnime, string name)
         {
-            //anime
-            if (item == 0)
+            //isAnime
+            if (isAnime)
             {
-                Anime anime = default;
+                Anime? anime = default;
                 if (database.Data.AnimeList.Exists(x => x.Name == name))
                     anime = database.Data.AnimeList.Find(x => x.Name == name);
                 else { 
                     anime = null;
-                    dataLogs = (1, Logs.GetBackendLog(1));
+                    dataLog = Logs.GetBackendLog(BEL.B01);
                 }
                 return anime;
             }
 
             //manga
-            else if (item == 1)
+            else
             {
-                Manga manga = default;
+                Manga? manga = default;
                 if (database.Data.MangaList.Exists(x => x.Name == name))
                     manga = database.Data.MangaList.Find(x => x.Name == name);
                 else { 
                     manga = null;
-                    dataLogs = (1, Logs.GetBackendLog(1));
+                    dataLog = Logs.GetBackendLog(BEL.B01);
                 }
                 return manga;
             }
 
             //Log de retorno nulo
-            dataLogs = (1, Logs.GetBackendLog(1));
+            dataLog = Logs.GetBackendLog(BEL.B01);
             return null;
         }
 
@@ -97,33 +97,25 @@ namespace Okaimono.src
         {
             if (Element.GetType() == typeof(Anime))
             {
-                database.Data.AnimeList.ForEach(x =>
+                database.Data.AnimeList.ForEach(anime =>
                 {
-                    if (x.Name == (Element as Anime).Name)
+                    if (anime.Id == (Element as Anime).Id)
                     {
-                        x = Element as Anime;
+                        anime = Element as Anime;
                     }
                 });
             }
             else if (Element.GetType() == typeof(Manga))
             {
-                database.Data.MangaList.ForEach(x =>
+                database.Data.MangaList.ForEach(manga =>
                 {
-                    if (x.Name == (Element as Manga).Name)
+                    if (manga.Id == (Element as Manga).Id)
                     {
-                        x = Element as Manga;
+                        manga = Element as Manga;
                     }
                 });
             }
             //database.SaveData();
-        }
-
-        void Doc()
-        {
-            foreach (var Line in Resources.Doc)
-            {
-                Console.Write(Line);
-            }
         }
 
         void Koffi()
@@ -136,7 +128,7 @@ namespace Okaimono.src
             catch (Exception ex)
             {
                 //Console.WriteLine("Error al abrir la página: " + ex.Message);
-                dataLogs = (2, Logs.GetBackendLog(2));
+                dataLog = Logs.GetBackendLog(BEL.B02);
             }
         }
 

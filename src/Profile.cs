@@ -1,7 +1,9 @@
 ﻿using Models;
+using NKDot;
 
 namespace Okaimono.src
 {
+    using Okaimono.Logs;
     public class Profile
     {
 
@@ -9,26 +11,26 @@ namespace Okaimono.src
 
         const string profilePath = @"D:/Okaimono/";
         const string profileFileName= "Profile.dcf"; //.dcf = dot choco file
-        private (byte, string) dataLogs = default;
+        string log = string.Empty;
 
-        public (byte, string) GetDataLogs { get => dataLogs; }
-        public static User user = new();
+        public static User? user = new();
+
         #endregion
 
 
 
         #region Public_Methods
 
-        public void CreateUser(string userName) => Create(userName);
+        public string CreateUser(string userName) => Create(userName);
 
 
         public string ReadUser() => Read(profilePath);
 
 
-        public string UpdateUser() => UpdateUserData();
+        public string UpdateUser() => Update(user);
 
 
-        public string DeleteUser() => UpdateUserData();
+        public string DeleteUser() => Update(new(), true);
 
         #endregion
 
@@ -36,46 +38,76 @@ namespace Okaimono.src
 
         #region Private_Methods
 
-        void Create(string userName = "Unknown")
+        string Create(string userName = "Unknown")
         {
             user = new() { Name = userName, DBPath = profilePath };
             if(!Directory.Exists(profilePath)) 
                 Directory.CreateDirectory(profilePath);
             
-            StreamWriter streamWriter = new(profilePath + profileFileName);
-            streamWriter.Write(JsonSerializer.Serialize(user));
-            streamWriter.Close();
+            return Update(user, true);
         }
+
 
         string Read(string profilePath)
         {
-            string log = Logs.GetProfileLog(TryGetOrSaveProfile());
-            if (log == "Successful Process")
+            log = Logs.GetLoadProfileLog(DiretoriesLoadLogs());
+
+            if (log != Logs.SUCCESSFUL_LOG) return log;
+            else
             {
-                StreamReader sr = new(profilePath + profileFileName);
-                user = JsonSerializer.Deserialize<User>(sr.ReadToEnd());
-                sr.Close();
+                try
+                {
+                    StreamReader sr = new(profilePath + profileFileName);
+                    string dataDecrypt = NKObj.DKRPT(sr.ReadToEnd());
+                    sr.Close();
+
+                    user = JsonSerializer.Deserialize<User>(dataDecrypt);
+                }
+                catch { return Logs.GetLoadProfileLog(PLL.L03); }
             }
-            return log;
+            return VoidUserData(user) ? Logs.GetLoadProfileLog(PLL.L04) : Logs.SUCCESSFUL_LOG;
         }
 
-        string UpdateUserData()
+
+        string Update(User dataUser, bool reset = false)
         {
-            string log = Logs.GetProfileLog(TryGetOrSaveProfile());
-            if (log == "Successful Process")
+            log = Logs.GetSaveProfileLog(DiretoriesSaveLogs());
+
+            if (log != Logs.SUCCESSFUL_LOG) return log;
+            else
             {
-                StreamWriter sw = new(profilePath + profileFileName);
-                sw.Write(JsonSerializer.Serialize(user));
-                sw.Close();
+                try{
+                    StreamWriter sw = new(profilePath + profileFileName);
+                    sw.Write(NKObj.NKRPT(JsonSerializer.Serialize(dataUser)));
+                    sw.Close();
+                }
+                catch { return Logs.GetLoadProfileLog(PLL.L03); }
             }
-            return log;
+
+            return (VoidUserData(dataUser) && !reset || !VoidUserData(dataUser) && reset) 
+                ? Logs.GetLoadProfileLog(PLL.L04) : Logs.SUCCESSFUL_LOG;
         }
 
-        byte TryGetOrSaveProfile()
+
+        bool VoidUserData(User user)
         {
-            if (!Directory.Exists(profilePath)) return 2;
-            if (!File.Exists(profilePath + profileFileName)) return 1;
-            return 0;
+            if (user == null) return true;
+            if (user.Name == string.Empty) return true;
+            if (!string.IsNullOrEmpty(user.DBPath)) return true;
+            return false;
+        }
+
+        PLL DiretoriesLoadLogs()
+        {
+            if (!Directory.Exists(profilePath)) return PLL.LPP;
+            if (!File.Exists(profilePath + profileFileName)) return PLL.LP;
+            return PLL.SC;
+        }
+        PSL DiretoriesSaveLogs()
+        {
+            if (!Directory.Exists(profilePath)) return PSL.SPP;
+            if (!File.Exists(profilePath + profileFileName)) return PSL.SP;
+            return PSL.SC;
         }
 
         #endregion

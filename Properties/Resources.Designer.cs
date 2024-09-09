@@ -88,7 +88,7 @@ namespace Okaimono.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created by: ChocoretoStonus
+        ///   Looks up a localized string similar to Created by: Dot Choco
         ///
         ///
         ///Este Programa tiene como objetivo el ayudar al manejo de gestion del contenido 
@@ -99,7 +99,7 @@ namespace Okaimono.Properties {
         ///de consola que facilita el uso del programa.
         ///
         ///Para el manejo de las fichas de contenido se utilizara un archivo de texto
-        ///en el cual se guardaran las fichas. [rest of string was truncated]&quot;;.
+        ///en el cual se guardaran las fichas. Estas [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Doc {
             get {

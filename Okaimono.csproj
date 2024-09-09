@@ -21,8 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NAudio" Version="2.1.0" />
-    <PackageReference Include="System.Windows.Extensions" Version="7.0.0" />
+    <Reference Include="NKDot">
+      <HintPath>..\NKDot\bin\Debug\net8.0\NKDot.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

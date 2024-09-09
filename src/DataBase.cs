@@ -2,6 +2,9 @@
 
 namespace Okaimono.src
 {
+    using Okaimono.Logs;
+    using Windows.System;
+
     public class Database
     {
 
@@ -9,8 +12,8 @@ namespace Okaimono.src
 
         readonly string? dbPath = Profile.user.DBPath;
         const string dbFileName = "Data.dcf"; //.dcf = dot choco file
-
-        public DataModels Data = new();
+        string log = string.Empty;
+        public DataModels? Data = new();
         
         #endregion
 
@@ -22,7 +25,7 @@ namespace Okaimono.src
 
         public string LoadData() => Load();
 
-        public void CreateData() => Create();
+        public string CreateData() => Create();
 
         #endregion
 
@@ -32,45 +35,64 @@ namespace Okaimono.src
 
         string Save()
         {
-            string log = Logs.GetDBLog(TryGetOrSaveProfile());
-            if (log == "Successful Process") {
-                StreamWriter writer = new(dbPath + dbFileName);
-                writer.Write(JsonSerializer.Serialize(Data));
-                writer.Close();
+            log = Logs.GetSaveDBLog(DiretoriesSaveLogs());
+
+            if (log != Logs.SUCCESSFUL_LOG) return log;
+            else
+            {
+                try
+                {
+                    StreamWriter writer = new(dbPath + dbFileName);
+                    writer.Write(JsonSerializer.Serialize(Data));
+                    writer.Close();
+                }
+                catch { return Logs.GetSaveDBLog(DBSL.S03); }
+                
             }
             return log;
         }
 
         string Load()
         {
-            string log = Logs.GetDBLog(TryGetOrSaveProfile());
-            if (log == "Successful Process")
+            log = Logs.GetLoadDBLog(DiretoriesLoadLogs());
+
+            if (log != Logs.SUCCESSFUL_LOG) return log;
+            else
             {
-                StreamReader data = new(dbPath+dbFileName);
-                Data = JsonSerializer.Deserialize<DataModels>(data.ReadToEnd());
-                data.Close();
+                try
+                {
+                    StreamReader data = new(dbPath + dbFileName);
+                    Data = JsonSerializer.Deserialize<DataModels>(data.ReadToEnd());
+                    data.Close();
+                }
+                catch { return Logs.GetLoadDBLog(DBLL.L03); }
             }
-            return log;
+            return Data == null ? Logs.GetLoadDBLog(DBLL.L03) : Logs.SUCCESSFUL_LOG;
         }
 
-        void Create()
+        string Create()
         {
             if (!Directory.Exists(dbPath))
                 Directory.CreateDirectory(dbPath);
 
-            StreamWriter streamWriter = new(dbPath + dbFileName);
-            streamWriter.Write(JsonSerializer.Serialize(Data));
-            streamWriter.Close();
+            return Save();
         }
 
-        byte TryGetOrSaveProfile()
+        DBLL DiretoriesLoadLogs()
         {
-            if (!Directory.Exists(dbPath)) return 2;
-            if (!File.Exists(dbPath + dbFileName)) return 1;
-            return 0;
+            if (!Directory.Exists(dbPath)) return DBLL.LDBP;
+            if (!File.Exists(dbPath + dbFileName)) return DBLL.LDB;
+            return DBLL.SC;
         }
-
+        DBSL DiretoriesSaveLogs()
+        {
+            if (!Directory.Exists(dbPath)) return DBSL.SPP;
+            if (!File.Exists(dbPath + dbFileName)) return DBSL.SP;
+            return DBSL.SC;
+        }
+       
+        
         #endregion
 
-        }
     }
+}

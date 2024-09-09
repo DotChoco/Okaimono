@@ -10,6 +10,7 @@ namespace Models
 
     public class Anime
     {
+        public int Id { get; set; }
         public string? Name {get; set;}
         public List<string>? Tags { get; set; }
         public string? InLive { get; set; }
@@ -26,6 +27,7 @@ namespace Models
 
     public class Manga
     {
+        public int Id { get; set; }
         public string? Name { get; set; }
         public List<string>? Tags { get; set; }
         public string? OnGoing { get; set; }
@@ -36,13 +38,16 @@ namespace Models
         public List<string>? SpinOffs { get; set; }
     }
 
+
+    public class User
+    {
+        public string? Name { get; set; } = "Unknown";
+        public string? DBPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+    }
+
+
 }
 
-public class User
-{
-    public string? Name { get; set; }
-    public string? DBPath { get; set; }
-}
 
 
 
