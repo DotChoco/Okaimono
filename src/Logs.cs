@@ -68,8 +68,8 @@ namespace Okaimono.Logs
         {DBLL.LDBP, "Failed Process, error while loading the database because the path doesn't exists" },
         {DBLL.L01, "Failed Process, error while loading the database S01" }, //S01 = El modelo de carga es diferente
                                                                       //al usado cuando se guardo la data
-        {DBLL.L02, "Failed Process, error while loading the database S02" },//S02 = No se pudo cargar un dato en el
-                                                                     //modelo ya que no coincidia con el tipo(ej. "hola" => bool yes;)
+        {DBLL.L02, "Failed Process, error while loading the database S02" },//S02 = No se pudo cargar la data porque durante el proceso de
+                                                                    //carga los datos debido a que el serializador no pudo convertir la data
         {DBLL.L03, "Failed Process, error while loading the database S03" },//S03 = No se pudo cargar la data porque el archivo
                                                                      //de la DB ha sido modificado y quedo corrupto o con otro
                                                                      //tipo de estructura
@@ -113,7 +113,7 @@ namespace Okaimono.Logs
         {PSL.S02, "Failed Process, error while saving the profile S02" },//S02 = No se pudo guardar porque el serializador
                                                                      //presento un error al convertir la informacion
         {PSL.S03, "Failed Process, error while saving the profile S03" },//S03 = Se realizo el proceso pero el contenido guardado
-                                                                   //esta alterado o no se dieron condiciones unicas
+                                                                   //esta alterado o no coincidia con el tipo de dato necesario
         };
 
 

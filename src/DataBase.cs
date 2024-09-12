@@ -37,6 +37,7 @@ namespace Okaimono.src
         {
             log = Logs.GetSaveDBLog(DiretoriesSaveLogs());
 
+            if (Data == null) return Logs.GetSaveDBLog(DBSL.S01);
             if (log != Logs.SUCCESSFUL_LOG) return log;
             else
             {
@@ -46,10 +47,10 @@ namespace Okaimono.src
                     writer.Write(JsonSerializer.Serialize(Data));
                     writer.Close();
                 }
-                catch { return Logs.GetSaveDBLog(DBSL.S03); }
+                catch { return Logs.GetSaveDBLog(DBSL.S02); }
                 
             }
-            return log;
+            return Logs.SUCCESSFUL_LOG;
         }
 
         string Load()
@@ -64,10 +65,11 @@ namespace Okaimono.src
                     StreamReader data = new(dbPath + dbFileName);
                     Data = JsonSerializer.Deserialize<DataModels>(data.ReadToEnd());
                     data.Close();
+                    if (Data == null) return Logs.GetLoadDBLog(DBLL.L02);
                 }
                 catch { return Logs.GetLoadDBLog(DBLL.L03); }
             }
-            return Data == null ? Logs.GetLoadDBLog(DBLL.L03) : Logs.SUCCESSFUL_LOG;
+            return Logs.SUCCESSFUL_LOG;
         }
 
         string Create()
@@ -84,6 +86,7 @@ namespace Okaimono.src
             if (!File.Exists(dbPath + dbFileName)) return DBLL.LDB;
             return DBLL.SC;
         }
+        
         DBSL DiretoriesSaveLogs()
         {
             if (!Directory.Exists(dbPath)) return DBSL.SPP;

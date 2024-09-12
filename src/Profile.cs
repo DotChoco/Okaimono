@@ -4,6 +4,8 @@ using NKDot;
 namespace Okaimono.src
 {
     using Okaimono.Logs;
+    using Windows.Storage.Streams;
+
     public class Profile
     {
 
@@ -21,7 +23,7 @@ namespace Okaimono.src
 
         #region Public_Methods
 
-        public string CreateUser(string userName) => Create(userName);
+        public string CreateUser() => Create(user.Name);
 
 
         public string ReadUser() => Read(profilePath);
@@ -38,11 +40,16 @@ namespace Okaimono.src
 
         #region Private_Methods
 
-        string Create(string userName = "Unknown")
+        string Create(string userName)
         {
-            user = new() { Name = userName, DBPath = profilePath };
-            if(!Directory.Exists(profilePath)) 
+            user = new() { Name = userName };
+            if (!Directory.Exists(profilePath))
+            {
                 Directory.CreateDirectory(profilePath);
+                StreamWriter sw = new(profilePath+profileFileName);
+                sw.Write(""); 
+                sw.Close();
+            } 
             
             return Update(user, true);
         }
@@ -62,15 +69,21 @@ namespace Okaimono.src
                     sr.Close();
 
                     user = JsonSerializer.Deserialize<User>(dataDecrypt);
+                    if (VoidUserData(user)) return Logs.GetLoadProfileLog(PLL.L04);
                 }
-                catch { return Logs.GetLoadProfileLog(PLL.L03); }
+                catch { return Logs.GetLoadProfileLog(PLL.L02); }
             }
-            return VoidUserData(user) ? Logs.GetLoadProfileLog(PLL.L04) : Logs.SUCCESSFUL_LOG;
+
+            return Logs.SUCCESSFUL_LOG;
         }
 
 
         string Update(User dataUser, bool reset = false)
         {
+            if (VoidUserData(dataUser) && !reset || !VoidUserData(dataUser) && reset)
+                return Logs.GetSaveProfileLog(PSL.S01);
+
+
             log = Logs.GetSaveProfileLog(DiretoriesSaveLogs());
 
             if (log != Logs.SUCCESSFUL_LOG) return log;
@@ -81,11 +94,10 @@ namespace Okaimono.src
                     sw.Write(NKObj.NKRPT(JsonSerializer.Serialize(dataUser)));
                     sw.Close();
                 }
-                catch { return Logs.GetLoadProfileLog(PLL.L03); }
+                catch { return Logs.GetSaveProfileLog(PSL.S02); }
             }
 
-            return (VoidUserData(dataUser) && !reset || !VoidUserData(dataUser) && reset) 
-                ? Logs.GetLoadProfileLog(PLL.L04) : Logs.SUCCESSFUL_LOG;
+            return Logs.SUCCESSFUL_LOG;
         }
 
 
@@ -103,6 +115,7 @@ namespace Okaimono.src
             if (!File.Exists(profilePath + profileFileName)) return PLL.LP;
             return PLL.SC;
         }
+        
         PSL DiretoriesSaveLogs()
         {
             if (!Directory.Exists(profilePath)) return PSL.SPP;

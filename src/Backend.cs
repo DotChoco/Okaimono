@@ -81,7 +81,7 @@ namespace Okaimono.src
                 database.Data.AnimeList.Add(item as Anime);
             else if (item.GetType() == typeof(Manga))
                 database.Data.MangaList.Add(item as Manga);
-            //database.SaveData();
+            database.SaveData();
         }
 
         void DeleteAnItem<T>(T item)
@@ -90,7 +90,7 @@ namespace Okaimono.src
                 database.Data.AnimeList.Remove(item as Anime);
             else if(item.GetType() == typeof(Manga))
                 database.Data.MangaList.Remove(item as Manga);
-            //database.SaveData();
+            database.SaveData();
         }
 
         void Edit<T>(T Element)
@@ -115,7 +115,7 @@ namespace Okaimono.src
                     }
                 });
             }
-            //database.SaveData();
+            database.SaveData();
         }
 
         void Koffi()
