@@ -1,5 +1,4 @@
-﻿
-namespace Models
+﻿namespace Okaimono.src.SaveData
 {
     public class DataModels
     {
@@ -11,7 +10,7 @@ namespace Models
     public class Anime
     {
         public int Id { get; set; }
-        public string? Name {get; set;}
+        public string? Name { get; set; }
         public List<string>? Tags { get; set; }
         public string? InLive { get; set; }
         public string? NextNewCap { get; set; }

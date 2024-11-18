@@ -1,9 +1,6 @@
-﻿using Models;
-
-namespace Okaimono.src
+﻿namespace Okaimono.src.SaveData
 {
     using Okaimono.Logs;
-    using Windows.System;
 
     public class Database
     {
@@ -14,7 +11,7 @@ namespace Okaimono.src
         const string dbFileName = "Data.dcf"; //.dcf = dot choco file
         string log = string.Empty;
         public DataModels? Data = new();
-        
+
         #endregion
 
 
@@ -48,7 +45,7 @@ namespace Okaimono.src
                     writer.Close();
                 }
                 catch { return Logs.GetSaveDBLog(DBSL.S02); }
-                
+
             }
             return Logs.SUCCESSFUL_LOG;
         }
@@ -86,15 +83,15 @@ namespace Okaimono.src
             if (!File.Exists(dbPath + dbFileName)) return DBLL.LDB;
             return DBLL.SC;
         }
-        
+
         DBSL DiretoriesSaveLogs()
         {
             if (!Directory.Exists(dbPath)) return DBSL.SPP;
             if (!File.Exists(dbPath + dbFileName)) return DBSL.SP;
             return DBSL.SC;
         }
-       
-        
+
+
         #endregion
 
     }

@@ -1,17 +1,18 @@
-﻿using Models;
-using NKDot;
+﻿using NKDot;
 
 namespace Okaimono.src
 {
     using Okaimono.Logs;
-    using Windows.Storage.Streams;
+    using NKDot.Cons;
+    using NKDot;
+    using Okaimono.src.SaveData;
 
     public class Profile
     {
 
         #region Variables
 
-        const string profilePath = @"D:/Okaimono/";
+        const string profilePath = @"C:/Okaimono/";
         const string profileFileName= "Profile.dcf"; //.dcf = dot choco file
         string log = string.Empty;
 
@@ -44,12 +45,14 @@ namespace Okaimono.src
         {
             user = new() { Name = userName };
             if (!Directory.Exists(profilePath))
-            {
                 Directory.CreateDirectory(profilePath);
+
+            if (!File.Exists(profilePath + profileFileName))
+            {
                 StreamWriter sw = new(profilePath+profileFileName);
-                sw.Write(""); 
+                sw.Write(""); //Archivo vacio para poder usarlo mas tarde
                 sw.Close();
-            } 
+            }
             
             return Update(user, true);
         }
@@ -65,10 +68,10 @@ namespace Okaimono.src
                 try
                 {
                     StreamReader sr = new(profilePath + profileFileName);
-                    string dataDecrypt = NKObj.DKRPT(sr.ReadToEnd());
-                    sr.Close();
+                    string? dataDecrypt = NKObj.DKRPT<string>(sr.ReadToEnd());
+                    sr.Close(); 
 
-                    user = JsonSerializer.Deserialize<User>(dataDecrypt);
+                    user = JsonSerializer.Deserialize<User>(dataDecrypt) ?? new();
                     if (VoidUserData(user)) return Logs.GetLoadProfileLog(PLL.L04);
                 }
                 catch { return Logs.GetLoadProfileLog(PLL.L02); }
@@ -109,6 +112,8 @@ namespace Okaimono.src
             return false;
         }
 
+        
+        
         PLL DiretoriesLoadLogs()
         {
             if (!Directory.Exists(profilePath)) return PLL.LPP;

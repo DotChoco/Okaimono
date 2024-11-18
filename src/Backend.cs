@@ -1,22 +1,25 @@
-﻿using Models;
-using Okaimono.Properties;
+﻿using Okaimono.Properties;
 using System.Diagnostics;
 
 namespace Okaimono.src
 {
     using Okaimono.Logs;
+    using Okaimono.src.SaveData;
+
     public class Backend
     {
 
         #region Variables
 
-        private Profile userProfile =new();
-        private Database database =new();
-        private string dataLog = default;
-
+        private Profile userProfile = new();
+        private Database database = new();
+        private string dataLog = string.Empty;
         public string GetDataLogs { get => dataLog; }
+        
+        //Encapsulates
         public Profile UserProfile { get => userProfile; }
         public Database DB { get => database; }
+        
         #endregion
 
 
@@ -50,11 +53,9 @@ namespace Okaimono.src
                 Anime? anime = default;
                 if (database.Data.AnimeList.Exists(x => x.Name == name))
                     anime = database.Data.AnimeList.Find(x => x.Name == name);
-                else { 
-                    anime = null;
+                else 
                     dataLog = Logs.GetBackendLog(BEL.B01);
-                }
-                return anime;
+                return anime = new();
             }
 
             //manga
@@ -63,33 +64,27 @@ namespace Okaimono.src
                 Manga? manga = default;
                 if (database.Data.MangaList.Exists(x => x.Name == name))
                     manga = database.Data.MangaList.Find(x => x.Name == name);
-                else { 
-                    manga = null;
+                else
                     dataLog = Logs.GetBackendLog(BEL.B01);
-                }
-                return manga;
+                return manga = new();
             }
-
-            //Log de retorno nulo
-            dataLog = Logs.GetBackendLog(BEL.B01);
-            return null;
         }
 
         void NewItem<T>(T item)
         {
             if (item.GetType() == typeof(Anime))
-                database.Data.AnimeList.Add(item as Anime);
+                database.Data.AnimeList.Add(item as Anime ?? new());
             else if (item.GetType() == typeof(Manga))
-                database.Data.MangaList.Add(item as Manga);
+                database.Data.MangaList.Add(item as Manga ?? new());
             database.SaveData();
         }
 
         void DeleteAnItem<T>(T item)
         {
             if(item.GetType() == typeof(Anime))
-                database.Data.AnimeList.Remove(item as Anime);
+                database.Data.AnimeList.Remove(item as Anime ?? new());
             else if(item.GetType() == typeof(Manga))
-                database.Data.MangaList.Remove(item as Manga);
+                database.Data.MangaList.Remove(item as Manga ?? new());
             database.SaveData();
         }
 
