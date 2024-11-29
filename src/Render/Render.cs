@@ -1,4 +1,4 @@
-using DCTI;
+using DCTI.Components;
 
 namespace Okaimono
 {
@@ -7,38 +7,45 @@ namespace Okaimono
     //     Table, 
     //     InputField, 
     //     Text, 
-    //     Selector, 
-    //     Border 
+    //     CheckBox,
+    //     Tree,
+    //     Region
     // } 
     public class Render {
-        int consoleHeight = default;
-        int consoleWidth = default;
-        
         public Render() { 
-            Console.Clear();
-            // consoleHeight = Console.WindowHeight;
-            // consoleWidth = Console.WindowWidth;
+
+            // Console.Clear();
             // InputField inputField = new(new()
             //     {text = "Placeholder", color = "879EA6" },"FE94FF");
             // inputField.SetPosition(new(10,3));
             // inputField.SetScale(new(25,3));
             // inputField.Render();
             // inputField.ReadInput();
+
+
+            string[,] content0 = { { "hola", "estas" } };
             string[,] content = { 
-                { "hola", "como", "estas"}, 
-                {"yo", "muy", "bien"}, 
-                {"gracias", "por", "preguntar"}
+                { "hola", "como", "estas" }, 
+                { "yo", "muy", "bien" }, 
+                { "gracias", "por", "preguntar" }
             };
+            // string[,] content = { 
+            //     { "hola", "como", "estas"}, 
+            //     {"yo", "cansado\npero", "bien"}, 
+            //     {"gracias\nasdad", "por", "preguntar"}
+            // };
+            Console.CursorVisible = false;
+            Table tabless = new(new(content0), new(10,3));
+            tabless.Render();
             
-            Table table = new(new(content));
+            Table table = new(new(content), new(10,5));
             table.Render();
+            Console.ReadKey();
         }
 
+        
 
-        public T Draw<T>(T obj, sbyte height, sbyte width) {
-            
-            return obj;
-        }
+
 
     }
 
