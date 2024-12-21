@@ -108,7 +108,7 @@ namespace Okaimono.src
         {
             if (user == null) return true;
             if (user.Name == string.Empty) return true;
-            if (!string.IsNullOrEmpty(user.DBPath)) return true;
+            if (!string.IsNullOrEmpty(user.DbPath)) return true;
             return false;
         }
 

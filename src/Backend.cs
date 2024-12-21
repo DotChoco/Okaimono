@@ -116,15 +116,10 @@ namespace Okaimono.src
         void Koffi()
         {
             string url = "https://ko-fi.com/dotchoco";
-            try
-            {
+            try {
                 Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
             }
-            catch (Exception ex)
-            {
-                //Console.WriteLine("Error al abrir la página: " + ex.Message);
-                dataLog = Logs.GetBackendLog(BEL.B02);
-            }
+            catch (Exception ex) { dataLog = Logs.GetBackendLog(BEL.B02); }
         }
 
         #endregion

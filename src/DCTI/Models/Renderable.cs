@@ -1,7 +1,7 @@
 
 namespace DCTI.Models
 {
-    public abstract class MRegion: Component {
+    public abstract class Renderable: Component {
         //Cons
         protected const char TL_CORNNER = (char)9484;
         protected const char TR_CORNNER = (char)9488;
@@ -15,8 +15,8 @@ namespace DCTI.Models
 
         //Methods
         protected abstract void RenderBorders();
-        
+        public abstract void Render();
 
-        
     }
+
 }

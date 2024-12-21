@@ -2,17 +2,15 @@ using DCTI.Models;
 
 namespace DCTI.Components;
 
-public sealed class Region: MRegion
+public sealed class Region: Renderable
 {
 
-    public sealed override void Render()
-    {
+    public sealed override void Render() {
         
     }
 
 
-    protected sealed override void RenderBorders()
-    {
+    protected sealed override void RenderBorders() {
         
     }
 

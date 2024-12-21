@@ -1,21 +1,24 @@
 using DCTI.Models;
-using DCTI.Intefaces;
 using DCTI.Structs;
 
 namespace DCTI.Components;
 
-public sealed class Text: Component, IText{
-    
+public sealed class Text: Renderable {
+    private MColor Color { get; set; } = new();
+    private MText _text = new();
     public Text(MText text, Transform transform){
-        this.transform = transform;
-
-        ((IText)this).SetTextColor(text.color.ToString());
-        SetPosition(base.transform.position);
+        _text = text;
+        Transform = transform;
+        
+        MColor.SetTextColor(text.color.ToString());
     }
+
+    protected override void RenderBorders(){}
 
     public override void Render()
     {
-
-        
+        SetCursorPosition(Transform.position);
+        Console.Write(_text.value);
     }
+    
 }

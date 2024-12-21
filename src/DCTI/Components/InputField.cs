@@ -1,11 +1,10 @@
 using System.Text;
 using DCTI.Structs;
-using DCTI.Intefaces;
 using DCTI.Models;
 
 namespace DCTI.Components;
 
-public sealed class InputField: MRenderable, IText{
+public sealed class InputField: Renderable{
 
     #region Variables
     
@@ -20,31 +19,29 @@ public sealed class InputField: MRenderable, IText{
     public MText PlaceHolder = new();
 
     //Encapsulation
-    public string Text { get => content.text; }
+    public string Text { get => content.value; }
 
     #endregion
 
 
     public InputField(MText ph,
-        string textColor = IText.DEFAULT_TEXT_COLOR,
-        string componentColor = IText.DEFAULT_TEXT_COLOR
+        string textColor = MColor.DEFAULT_COLOR,
+        string componentColor = MColor.DEFAULT_COLOR
     ){
         //Set Colors for the Placeholder
         if (ph.color != DEFAULT_PH_COLOR && ph.color !=string.Empty)
             PlaceHolder.color = ph.color;
         
         //Set Colors that applied to Borders
-        if (textColor != IText.DEFAULT_TEXT_COLOR && textColor != string.Empty)
+        if (textColor != MColor.DEFAULT_COLOR && textColor != string.Empty)
             content.color = textColor;
-        else 
-            content.color = IText.DEFAULT_TEXT_COLOR;
         
         //Set Colors that applied to Text
-        if (componentColor != IText.DEFAULT_TEXT_COLOR && componentColor != string.Empty)
+        if (componentColor != MColor.DEFAULT_COLOR && componentColor != string.Empty)
             BorderColor = textColor;
         
         
-        PlaceHolder.text = ph.text;
+        PlaceHolder.value = ph.value;
 
         SetPosition(new(0,0));
         SetScale(new(5,3));
@@ -60,38 +57,38 @@ public sealed class InputField: MRenderable, IText{
 
 
     protected sealed override void RenderBorders(){
-        ((IText)this).SetTextColor(BorderColor);
+        MColor.SetTextColor(BorderColor);
 
         SetCursorPosition();
         int curposY = CursorPos.y;
-        for (int y = 0; y < transform.scale.y; y++){
-            for (int x = 0; x < transform.scale.x; x++)
+        for (int y = 0; y < Transform.scale.y; y++){
+            for (int x = 0; x < Transform.scale.x; x++)
             {
                 //Connect the cornners with Lines
-                if(x >= 1 && x < transform.scale.x - 2 &&
-                (y == 0 || y == transform.scale.y - 1))
+                if(x >= 1 && x < Transform.scale.x - 2 &&
+                (y == 0 || y == Transform.scale.y - 1))
                     Console.Write(INNER_LINE);
                 //Fill the rest of field with spaces 
-                else if(x >= 1 && x < transform.scale.x - 2 &&
-                (y >= 1 || y < transform.scale.y - 1))
+                else if(x >= 1 && x < Transform.scale.x - 2 &&
+                (y >= 1 || y < Transform.scale.y - 1))
                     Console.Write(" ");
 
                 //Top Left Cornnner
                 if (y == 0 && x == 0)
                     Console.Write(TL_CORNNER);
                 //Top Right Cornnner
-                else if (y == 0 && x == transform.scale.x - 1)
+                else if (y == 0 && x == Transform.scale.x - 1)
                     Console.Write(TR_CORNNER);
                 
                 //Botton Left Cornnner
-                else if (x == 0 && y == transform.scale.y - 1)
+                else if (x == 0 && y == Transform.scale.y - 1)
                     Console.Write(BL_CORNNER);
                 //Botton Right Cornnner
-                else  if (x == transform.scale.x - 1 && 
-                    y == transform.scale.y - 1)
+                else  if (x == Transform.scale.x - 1 && 
+                    y == Transform.scale.y - 1)
                     Console.Write(BR_CORNNER);
 
-                else if(x == 0 || x == transform.scale.x - 1)
+                else if(x == 0 || x == Transform.scale.x - 1)
                         Console.Write(VERTICAL_BAR);
                 
             }
@@ -107,7 +104,7 @@ public sealed class InputField: MRenderable, IText{
 
     private void RenderPlaceholder()
     {
-        ((IText)this).SetTextColor(PlaceHolder.color);
+        MColor.SetTextColor(PlaceHolder.color);
         SetCursorPosition(new(CursorPos.x + 1, CursorPos.y + 1));
         Console.Write(PlaceHolder);
         SetCursorPosition();
@@ -116,7 +113,7 @@ public sealed class InputField: MRenderable, IText{
 
 
     public void ReadInput(){
-        ((IText)this).SetTextColor(content.color);
+        MColor.SetTextColor(content.color);
         // Use the StringBuilder to make the input result
         inputBuilder = new();
         ConsoleKeyInfo keyPress;
@@ -151,7 +148,7 @@ public sealed class InputField: MRenderable, IText{
             //Save and print the character 
             else
             {
-                if(Console.GetCursorPosition().Left <= (CursorPos.x + transform.scale.x) - 4){
+                if(Console.GetCursorPosition().Left <= (CursorPos.x + Transform.scale.x) - 4){
                     inputBuilder.Append(keyPress.KeyChar); 
                     Console.Write(keyPress.KeyChar);     
                 }
@@ -159,8 +156,8 @@ public sealed class InputField: MRenderable, IText{
             }
         }
 
-        ((IText)this).ResetTextColor();
-        content.text = inputBuilder.ToString();
+        MColor.ResetTextColor();
+        content.value = inputBuilder.ToString();
     }
 
 }
