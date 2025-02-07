@@ -26,30 +26,43 @@ public sealed class Tree: Renderable {
 
     public Tree() { }
 
-    public override void Render() { RenderChildren(_content); }
+    public override void Render() { RenderFathers(_content); }
 
-    void RenderChildren(List<TItem> items, int spaces = 1) {
+    void RenderFathers(List<TItem> items, int spaces = 1) {
         int posy = Transform.position.y;
-        SetPosition(Transform.position);
+        SetCursorPosition(Transform.position);
+        
         foreach (var item in items) {
             MColor.SetTextColor(item.HexColor);
-
-            if (spaces > 1) {
-                var tabs = new string(' ', spaces/2);
-                var lines = new string('-', (spaces / 2));
-                Console.Write($"{tabs}|{lines}{item.Content}\n");
-            }
-            else
-                Console.Write($"{item.Content}\n");
+            Console.Write($"{item.Content}\n");
             
             posy+=1;
-            SetPosition(new(Transform.position.x, posy));
-            
+            SetCursorPosition(new(Transform.position.x, posy));
             if (item.Children != null && item.Children.Count > 0) {
                 RenderChildren(item.Children, spaces+=1);
             }
         }
     }
-    
-    protected override void RenderBorders() { }
+
+    void RenderChildren(List<TItem> items, int spaces = 1)
+    {
+        int posy = CursorPosition.y;
+        SetCursorPosition(CursorPosition);
+        
+        foreach (var item in items) {
+            MColor.SetTextColor(item.HexColor);
+            if (spaces > 1) {
+                var tabs = new string(' ', spaces/2);
+                var lines = new string('-', (spaces / 2));
+                Console.Write($"{tabs}|{lines}{item.Content}\n");
+            }
+            
+            posy+=1;
+            SetCursorPosition(new(Transform.position.x, posy));
+            if (item.Children != null && item.Children.Count > 0) {
+                RenderChildren(item.Children, spaces+=1);
+            }
+        }
+    }
+    protected override void RenderBorders() {}
 }

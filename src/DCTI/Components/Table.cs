@@ -45,7 +45,7 @@ namespace DCTI.Components
             int colSize = _tb.Content.GetLength(1);
             int baseSeparators = 2, colSeparators = colSize - 1;
             int tableLength = (colSize * _tb.ItemsMaxLenght.x) 
-                              + baseSeparators + colSeparators;
+                            + baseSeparators + colSeparators;
             
             colSeparators = _tb.Content.GetLength(1) - 1;
 
@@ -143,5 +143,9 @@ namespace DCTI.Components
 
 
 }
+
+
+
+
 
 

@@ -11,14 +11,14 @@ namespace Okaimono.src
 
         #region Variables
 
-        private Profile userProfile = new();
-        private Database database = new();
-        private string dataLog = string.Empty;
-        public string GetDataLogs { get => dataLog; }
+        private Profile _userProfile = new();
+        private Database _database = new();
+        private string _dataLog = string.Empty;
+        public string GetDataLogs { get => _dataLog; }
         
         //Encapsulates
-        public Profile UserProfile { get => userProfile; }
-        public Database DB { get => database; }
+        public Profile UserProfile { get => _userProfile; }
+        public Database Db { get => _database; }
         
         #endregion
 
@@ -28,8 +28,8 @@ namespace Okaimono.src
 
         public void Start()
         {
-            userProfile.ReadUser();
-            database.LoadData();
+            _userProfile.ReadUser();
+            _database.LoadData();
         }
         public bool CloseApplication() => true;
         public void CreateNewItem<T>(T item) => NewItem(item);
@@ -51,10 +51,10 @@ namespace Okaimono.src
             if (isAnime)
             {
                 Anime? anime = default;
-                if (database.Data.AnimeList.Exists(x => x.Name == name))
-                    anime = database.Data.AnimeList.Find(x => x.Name == name);
+                if (_database.Data.AnimeList.Exists(x => x.Name == name))
+                    anime = _database.Data.AnimeList.Find(x => x.Name == name);
                 else 
-                    dataLog = Logs.GetBackendLog(BEL.B01);
+                    _dataLog = Logs.GetBackendLog(BEL.B01);
                 return anime = new();
             }
 
@@ -62,10 +62,10 @@ namespace Okaimono.src
             else
             {
                 Manga? manga = default;
-                if (database.Data.MangaList.Exists(x => x.Name == name))
-                    manga = database.Data.MangaList.Find(x => x.Name == name);
+                if (_database.Data.MangaList.Exists(x => x.Name == name))
+                    manga = _database.Data.MangaList.Find(x => x.Name == name);
                 else
-                    dataLog = Logs.GetBackendLog(BEL.B01);
+                    _dataLog = Logs.GetBackendLog(BEL.B01);
                 return manga = new();
             }
         }
@@ -73,44 +73,44 @@ namespace Okaimono.src
         void NewItem<T>(T item)
         {
             if (item.GetType() == typeof(Anime))
-                database.Data.AnimeList.Add(item as Anime ?? new());
+                _database.Data.AnimeList.Add(item as Anime ?? new());
             else if (item.GetType() == typeof(Manga))
-                database.Data.MangaList.Add(item as Manga ?? new());
-            database.SaveData();
+                _database.Data.MangaList.Add(item as Manga ?? new());
+            _database.SaveData();
         }
 
         void DeleteAnItem<T>(T item)
         {
             if(item.GetType() == typeof(Anime))
-                database.Data.AnimeList.Remove(item as Anime ?? new());
+                _database.Data.AnimeList.Remove(item as Anime ?? new());
             else if(item.GetType() == typeof(Manga))
-                database.Data.MangaList.Remove(item as Manga ?? new());
-            database.SaveData();
+                _database.Data.MangaList.Remove(item as Manga ?? new());
+            _database.SaveData();
         }
 
-        void Edit<T>(T Element)
+        void Edit<T>(T element)
         {
-            if (Element.GetType() == typeof(Anime))
+            if (element.GetType() == typeof(Anime))
             {
-                database.Data.AnimeList.ForEach(anime =>
+                _database.Data.AnimeList.ForEach(anime =>
                 {
-                    if (anime.Id == (Element as Anime).Id)
+                    if (anime.Id == (element as Anime).Id)
                     {
-                        anime = Element as Anime;
+                        anime = element as Anime;
                     }
                 });
             }
-            else if (Element.GetType() == typeof(Manga))
+            else if (element.GetType() == typeof(Manga))
             {
-                database.Data.MangaList.ForEach(manga =>
+                _database.Data.MangaList.ForEach(manga =>
                 {
-                    if (manga.Id == (Element as Manga).Id)
+                    if (manga.Id == (element as Manga).Id)
                     {
-                        manga = Element as Manga;
+                        manga = element as Manga;
                     }
                 });
             }
-            database.SaveData();
+            _database.SaveData();
         }
 
         void Koffi()
@@ -119,7 +119,7 @@ namespace Okaimono.src
             try {
                 Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
             }
-            catch (Exception ex) { dataLog = Logs.GetBackendLog(BEL.B02); }
+            catch (Exception ex) { _dataLog = Logs.GetBackendLog(BEL.B02); }
         }
 
         #endregion

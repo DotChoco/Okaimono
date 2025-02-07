@@ -43,9 +43,8 @@ public sealed class InputField: Renderable{
         
         PlaceHolder.value = ph.value;
 
-        SetPosition(new(0,0));
         SetScale(new(5,3));
-        SetCursorPosition();
+        SetCursorPosition(new());
     }
 
 
@@ -60,7 +59,7 @@ public sealed class InputField: Renderable{
         MColor.SetTextColor(BorderColor);
 
         SetCursorPosition();
-        int curposY = CursorPos.y;
+        int curposY = CursorPosition.y;
         for (int y = 0; y < Transform.scale.y; y++){
             for (int x = 0; x < Transform.scale.x; x++)
             {
@@ -94,21 +93,21 @@ public sealed class InputField: Renderable{
             }
     
             curposY++;
-            SetCursorPosition(new(CursorPos.x, curposY));
+            SetCursorPosition(new(CursorPosition.x, curposY));
         }
 
         SetCursorPosition();
 
     }
-    
+
 
     private void RenderPlaceholder()
     {
         MColor.SetTextColor(PlaceHolder.color);
-        SetCursorPosition(new(CursorPos.x + 1, CursorPos.y + 1));
+        SetCursorPosition(new(CursorPosition.x + 1, CursorPosition.y + 1));
         Console.Write(PlaceHolder);
         SetCursorPosition();
-        SetCursorPosition(new(CursorPos.x + 1, CursorPos.y + 1));
+        SetCursorPosition(new(CursorPosition.x + 1, CursorPosition.y + 1));
     }
 
 
@@ -118,7 +117,7 @@ public sealed class InputField: Renderable{
         inputBuilder = new();
         ConsoleKeyInfo keyPress;
         RenderBorders();
-        SetCursorPosition(new(CursorPos.x + 1, CursorPos.y + 1));
+        SetCursorPosition(new(CursorPosition.x + 1, CursorPosition.y + 1));
         while (true)
         {
             
@@ -140,7 +139,7 @@ public sealed class InputField: Renderable{
             // Delete char per char in the input
             else if (keyPress.Key == ConsoleKey.Backspace && inputBuilder.Length >= 0)
             {
-                if(Console.GetCursorPosition().Left >= CursorPos.x + 1){
+                if(Console.GetCursorPosition().Left >= CursorPosition.x + 1){
                     inputBuilder.Length--; 
                     Console.Write("\b \b"); 
                 }
@@ -148,7 +147,7 @@ public sealed class InputField: Renderable{
             //Save and print the character 
             else
             {
-                if(Console.GetCursorPosition().Left <= (CursorPos.x + Transform.scale.x) - 4){
+                if(Console.GetCursorPosition().Left <= (CursorPosition.x + Transform.scale.x) - 4){
                     inputBuilder.Append(keyPress.KeyChar); 
                     Console.Write(keyPress.KeyChar);     
                 }
