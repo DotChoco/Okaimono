@@ -1,10 +1,11 @@
 ﻿using Okaimono.Properties;
 using System.Diagnostics;
+using Okaimono.SaveData;
+using Okaimono.src;
 
-namespace Okaimono.src
+namespace Okaimono
 {
-    using Okaimono.Logs;
-    using Okaimono.src.SaveData;
+    using DataLogs;
 
     public class Backend
     {
@@ -119,7 +120,7 @@ namespace Okaimono.src
             try {
                 Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
             }
-            catch (Exception ex) { _dataLog = Logs.GetBackendLog(BEL.B02); }
+            catch { _dataLog = Logs.GetBackendLog(BEL.B02); }
         }
 
         #endregion

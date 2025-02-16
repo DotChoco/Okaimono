@@ -1,8 +1,9 @@
 ﻿using System.Text;
+using Okaimono.src;
 
-namespace Okaimono.src.SaveData
+namespace Okaimono.SaveData
 {
-    using Okaimono.Logs;
+    using DataLogs;
 
     public class Database
     {
