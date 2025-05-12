@@ -1,5 +1,5 @@
 ﻿
-namespace Okaimono.Logs
+namespace Okaimono.DataLogs
 {
     public enum DBLL //DataBaseLoadLogs
     {

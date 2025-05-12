@@ -8,7 +8,9 @@ internal class Program
         // profile.CreateUser();
         //profile.ReadUser();
         
-        Render render = new();
+        Console.WriteLine("Hola buena tarde como etamo");
+        
+        /*Render render = new();*/
         
         
         

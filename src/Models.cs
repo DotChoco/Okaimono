@@ -1,13 +1,11 @@
-﻿namespace Okaimono.src.SaveData;
+﻿namespace Okaimono.SaveData;
 
-public sealed class DataLists
-{
-    public List<Anime> AnimeList { get; set; }
-    public List<Manga> MangaList { get; set; }
+public sealed class DataLists {
+    public List<Anime> AnimeList { get; set; } = new();
+    public List<Manga> MangaList { get; set; } = new();
 }
 
-public sealed class Anime
-{
+public sealed class Anime {
     public int Id { get; set; }
     public string? Name { get; set; }
     public List<string>? Tags { get; set; }
@@ -22,8 +20,7 @@ public sealed class Anime
     public int? Ovas { get; set; }
 }
 
-public sealed class Manga
-{
+public sealed class Manga {
     public int Id { get; set; }
     public string? Name { get; set; }
     public List<string>? Tags { get; set; }
@@ -35,11 +32,10 @@ public sealed class Manga
     public List<string>? SpinOffs { get; set; }
 }
 
-public sealed class User
-    {
-        public string? Name { get; set; } = "Unknown";
-        public string? DbPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-    }
+public sealed class User {
+    public string? Name { get; set; } = "Unknown";
+    public string? DbPath { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+}
 
 
 

@@ -1,70 +1,95 @@
-using System.Net.Http.Headers;
 using DCTI.Components;
+using DCTI.Models;
 using DCTI.Structs;
+using DCTI.Structs.Enums;
 
-namespace Okaimono
-{
-    // public enum RenderObjs{
-    //     None, 
-    //     Table, 
-    //     InputField, 
-    //     Text, 
-    //     CheckBox,
-    //     Tree,
-    //     Region
-    // } 
-    public sealed class Render {
-        public Render() { 
+namespace Okaimono;
 
-            Console.Clear();
-            // InputField inputField = new(new()
-            //     {text = "Placeholder", color = "879EA6" },"FE94FF");
-            // inputField.SetPosition(new(10,3));
-            // inputField.SetScale(new(25,3));
-            // inputField.Render();
-            // inputField.ReadInput();
+// Components:
+//     Table -> checked
+//     InputField -> checked
+//     Text -> checked
+//     CheckBox -> checked
+//     Tree -> checked
+//     Region -> checked
 
-
-            // string[,] content0 = { { "hola", "estas" } };
-            string[,] content = { 
-                { "hola", "como", "estas" }, 
-                { "yo", "muy", "bien" }, 
-                { "gracias", "por", "preguntar" }
-            };
-            string[,] content0 = { 
-                { "hola", "como", "estas"}, 
-                {"yo", "cansado\npero", "bien"}, 
-                {"gracias\nasdad", "por", "preguntar"}
-            };
-            Console.CursorVisible = false;
-            Table tabless = new(new(content), new(10,3));
-            tabless.Render();
-            
-            // Tree nw = new();
-            // var data = new List<TItem>()
-            // {
-            //     new(){Content = "Holis"},
-            //     new(){Content = "Como"},
-            //     new()
-            //     {
-            //         Content = "Tas", 
-            //         Children = new(){ 
-            //             new(){ Content = "Bien" },
-            //             new(){ Content = "Y" },
-            //             new(){ Content = "Tu?" }
-            //         }
-            //     }
-            // };
-            // nw.Content = data;
-            // nw.Transform.position = new(10,2);
-            // nw.Render();
-        }
+public sealed class Render {
+    public Render()
+    {
+        Console.Clear();
+        Console.WriteLine("DCTI Render");
 
         
+        // var data = new InputFieldData()
+        //     Placeholder = new()
+        //     {
+        //         color = "879EA6",
+        //         value = "Enter Text",
+        //     },
+        //     ContentColor = Color.DEFAULT_COLOR,
+        //     ComponentColor = "FE94FF",
+        //     Style = FieldStyles.Rounded,
+        // };
+        //
+        // InputField inputField = new(data);
+        
+        // inputField.SetSize(25,1)
+        //     .SetPosition(new(10,5))
+        //     .Render();
+        //
+        // inputField.ReadInput();
 
+        MText [,] content = {
+            {new(){value = "hola"}, new(){value = "como"}, new(){value = "estas"}},
+            {new(){value = "yo"}, new(){value = "cansaeroddda"}, new()},
+            {new(), new(){value = "por"}, new(){value = "preguntar"}}
+        };
+        
+        TbContent ad = new(){
+            Content = content,
+            SeparetedRows = true,
+            Style = FieldStyles.Rounded,
+        };
+        Table tabless = new(ad);
+        tabless.SetPosition(new(5,4)).Render();
 
+        
+        // TbContent ads = new(){
+        //     Content = content,
+        //     SeparetedRows = true,
+        //     Style = FieldStyles.Rounded
+        // };
+        //
+        // Table table = new(ads);
+        // table.SetPosition(new(5,14)).Render();
+        //
+        // TbContent aa = new(){
+        //     Content = content,
+        //     SeparetedRows = true,
+        //     Style = FieldStyles.Box
+        // };
+        //
+        // Table tables = new(aa);
+        // tables.SetPosition(new(5,24)).Render();
+        
+        // CheckBox checkBox = new(new(){value = "IsLive", color = "6F8833"});
+        // checkBox.SetPosition(new(5,15)).Render();
+        //
+        // System.Threading.Thread.Sleep(2000);
+        // checkBox.Toggle();
+        // System.Threading.Thread.Sleep(2000);
+        // checkBox.Toggle();
+        
+        
+        // Region region = new();
+        // region.SetSize(new())
+        //     .SetPosition(new(5,15))
+        //     .Render();
+        
+        
     }
 
 
-
 }
+
+

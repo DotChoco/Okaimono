@@ -15,7 +15,7 @@ namespace Okaimono.SaveData
         const string DbAnimeFileName = "Animes.dcf"; //.dcf = dot choco file
         const string DbMangaFileName = "Manga.dcf"; //.dcf = dot choco file
         string _log = string.Empty;
-        public DataLists? Data = new();
+        public DataLists Data = new();
 
         #endregion
 
